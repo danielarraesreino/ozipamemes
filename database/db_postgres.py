@@ -311,6 +311,18 @@ class DatabaseManager:
             )
         self.conn.commit()
 
+    def reset_failed(self) -> int:
+        with self._cur() as cur:
+            cur.execute(
+                """UPDATE pipeline_queue
+                   SET tentativas = 0, erro_ultimo = NULL, estado = 'discovered'
+                   WHERE estado IN ('rejected', 'discovered')
+                   AND tentativas >= max_tentativas"""
+            )
+            n = cur.rowcount
+        self.conn.commit()
+        return n
+
     def get_queue_stats(self) -> dict:
         with self._cur() as cur:
             cur.execute(

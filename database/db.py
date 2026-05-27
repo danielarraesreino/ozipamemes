@@ -330,6 +330,17 @@ class DatabaseManager:
         ).fetchall()
         return {r["estado"]: r["n"] for r in rows}
 
+    def reset_failed(self) -> int:
+        self.conn.execute(
+            """UPDATE pipeline_queue
+               SET tentativas = 0, erro_ultimo = NULL, estado = 'discovered'
+               WHERE estado IN ('rejected', 'discovered')
+               AND tentativas >= max_tentativas"""
+        )
+        self.conn.commit()
+        n = self.conn.execute("SELECT changes()").fetchone()[0]
+        return n
+
     # ── Pipeline Runs ─────────────────────────────────────────────────────────
 
     def start_run(self) -> int:

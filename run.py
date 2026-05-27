@@ -130,15 +130,7 @@ def _cmd_import_json(db: DatabaseManager, config) -> int:
 
 
 def _cmd_retry_failed(db: DatabaseManager) -> int:
-    # Reseta itens travados (rejected ou discovered com tentativas esgotadas) para retry
-    db.conn.execute(
-        """UPDATE pipeline_queue
-           SET tentativas = 0, erro_ultimo = NULL, estado = 'discovered'
-           WHERE estado IN ('rejected', 'discovered')
-           AND tentativas >= max_tentativas"""
-    )
-    db.conn.commit()
-    n = db.conn.execute("SELECT changes()").fetchone()[0]
+    n = db.reset_failed()
     print(f"✅ {n} itens resetados para retry")
     db.close()
     return 0
