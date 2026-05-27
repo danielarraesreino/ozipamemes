@@ -57,8 +57,8 @@ def main() -> int:
         print(f"❌ Configuração inválida: {exc}", file=sys.stderr)
         return 1
 
-    from database.db import DatabaseManager
-    db = DatabaseManager(config.db_path)
+    from database.factory import get_db
+    db = get_db(config)
     db.init_db()
 
     # ── Comandos de informação (sem Claude) ───────────────────────────────────

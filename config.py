@@ -37,6 +37,7 @@ class Config:
     claude_model: str = "gemini-flash-latest"  # alias mantido para compat interna
 
     # ── Database ─────────────────────────────────────────────────────────────
+    database_url: str = field(default_factory=lambda: os.environ.get("DATABASE_URL", ""))
     db_path: str = str(ROOT / "database" / "oziel_pipeline.db")
     memes_json_path: str = str(ROOT / "database" / "memes.json")
 

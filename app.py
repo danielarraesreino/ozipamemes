@@ -26,9 +26,9 @@ st.set_page_config(
 @st.cache_resource
 def get_db():
     from config import get_config
-    from database.db import DatabaseManager
+    from database.factory import get_db as _get_db
     config = get_config()
-    db = DatabaseManager(config.db_path)
+    db = _get_db(config)
     db.init_db()
     return db
 
