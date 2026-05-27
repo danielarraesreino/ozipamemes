@@ -1,0 +1,720 @@
+{
+  "versao": "1.0",
+  "atualizado": "2026-05-26",
+  "projeto": "Cidadania Conectada: Vozes do Oziel — Grupo Diálogos / CriaLab / FEAC",
+  "territorio": "Jardim Oziel, Campinas-SP",
+  "publico_alvo": "Adolescentes 12-17 anos",
+  "memes": [
+
+    {
+      "id": "m001",
+      "meme": "\"Todos os políticos são ladrões, tanto faz votar\"",
+      "categoria": "apatia",
+      "formato": "texto_viral",
+      "origem": "WhatsApp / redes sociais",
+      "viralizou": "recorrente",
+      "verificacao": {
+        "status": "enganoso",
+        "fonte": "TSE / Transparência Internacional",
+        "explicacao": "Generalização que ignora diferenças reais entre mandatos e efeitos concretos das eleições locais"
+      },
+      "impacto_real": "Quando ninguém do bairro vota, quem decide o orçamento da sua UBS é eleito com 400 votos de outro bairro",
+      "contexto_oculto": "O vereador que votou pelo fechamento do posto de saúde do Oziel foi eleito com 480 votos. No bairro moram 3.200 jovens que não foram votar porque 'tanto faz'. A diferença era de 60 votos.",
+      "pilula_sabedoria": "Não votar é uma escolha — só que quem decide no seu lugar é quem aparece. E esse alguém não mora no Oziel.",
+      "modulo": "eleição",
+      "dificuldade": 1,
+      "usado_no_jogo": true,
+      "card_gerado": true,
+      "roteiro_tiktok": true,
+      "tags": ["apatia", "eleição", "voto", "vereador", "participação"]
+    },
+
+    {
+      "id": "m002",
+      "meme": "\"Compartilha aí — o governo vai cortar o Bolsa Família semana que vem!\"",
+      "categoria": "desinformacao",
+      "formato": "texto_viral",
+      "origem": "WhatsApp",
+      "viralizou": "recorrente — picos em períodos eleitorais",
+      "verificacao": {
+        "status": "falso",
+        "fonte": "Agência Lupa / G1 Fato ou Fake",
+        "url": "https://lupa.uol.com.br",
+        "explicacao": "Fake news recorrente que surge antes de eleições para gerar medo em beneficiários"
+      },
+      "impacto_real": "Beneficiárias param de votar por medo. A desinformação elegeu vereadores que votaram contra a UBS do bairro",
+      "contexto_oculto": "Sua vizinha acreditou, ficou com medo e parou de votar. O benefício não foi cortado. Mas o vereador eleito por quem acreditou na fake news votou contra a ampliação do CAPS do Oziel. Ela agora pega dois ônibus pra consulta.",
+      "pilula_sabedoria": "Antes de compartilhar, checa na Agência Lupa ou no Aos Fatos. 30 segundos de verificação evitam dano real pra quem depende do benefício.",
+      "modulo": "desinformacao",
+      "dificuldade": 1,
+      "usado_no_jogo": true,
+      "card_gerado": true,
+      "roteiro_tiktok": true,
+      "tags": ["fake news", "bolsa família", "benefício social", "desinformação", "WhatsApp"]
+    },
+
+    {
+      "id": "m003",
+      "meme": "\"Audiência pública é coisa de adulto chato, não muda nada mesmo\"",
+      "categoria": "apatia",
+      "formato": "texto_viral",
+      "origem": "conversa cotidiana / redes",
+      "viralizou": "recorrente",
+      "verificacao": {
+        "status": "enganoso",
+        "fonte": "Câmara Municipal de Campinas",
+        "explicacao": "Audiências públicas têm poder legal de influenciar votações — quórum mínimo exige presença física"
+      },
+      "impacto_real": "A proposta de quadra esportiva no Oziel foi rejeitada por falta de quórum — 3 moradores compareceram. 200 assinaturas foram entregues mas o regimento exige presença",
+      "contexto_oculto": "A proposta de construir uma quadra esportiva aqui no Oziel foi rejeitada. Compareceram 3 moradores. 200 assinaturas de apoio foram entregues mas o regimento exige presença física. A quadra não foi feita. O terreno virou estacionamento.",
+      "pilula_sabedoria": "Audiência pública não é sala de aula. É onde o bairro aparece ou some. Você decide qual.",
+      "modulo": "participacao",
+      "dificuldade": 1,
+      "usado_no_jogo": true,
+      "card_gerado": true,
+      "roteiro_tiktok": true,
+      "tags": ["participação", "audiência pública", "território", "quadra", "jovem"]
+    },
+
+    {
+      "id": "m004",
+      "meme": "\"Política não é pra mim, prefiro ficar fora disso\"",
+      "categoria": "apatia",
+      "formato": "texto_viral",
+      "origem": "conversa cotidiana",
+      "viralizou": "recorrente",
+      "verificacao": {
+        "status": "enganoso",
+        "fonte": "Diversas — ciência política básica",
+        "explicacao": "A política decide preços, transporte, escola, saúde — ficar 'fora' é deixar que outros decidam por você"
+      },
+      "impacto_real": "Quem decide o ônibus que você pega todo dia foi eleito. O preço da passagem foi votado. Você estava fora?",
+      "contexto_oculto": "O vereador que aprovou o aumento da passagem de ônibus foi eleito com 480 votos. No Oziel moram mais de 3.000 jovens que não votaram porque 'política não é pra mim'. O aumento foi aprovado por 2 votos a mais do que o necessário.",
+      "pilula_sabedoria": "A política já entrou na sua vida sem pedir licença. A pergunta é: você vai deixar ou vai participar?",
+      "modulo": "eleicao",
+      "dificuldade": 1,
+      "usado_no_jogo": false,
+      "card_gerado": false,
+      "roteiro_tiktok": true,
+      "tags": ["apatia", "participação", "jovem", "transporte", "voto"]
+    },
+
+    {
+      "id": "m005",
+      "meme": "\"A urna eletrônica é fraudada — prove que não é\"",
+      "categoria": "desinformacao",
+      "formato": "texto_viral",
+      "origem": "Twitter / YouTube / WhatsApp",
+      "viralizou": "2018, 2022",
+      "verificacao": {
+        "status": "falso",
+        "fonte": "TSE / Tribunal Superior Eleitoral / MIT Media Lab",
+        "url": "https://www.tse.jus.br",
+        "explicacao": "Urna passou por auditorias técnicas, inclusive por grupos da sociedade civil. Nenhuma fraude foi comprovada. A inversão do ônus da prova ('prove que não é') é uma falácia lógica."
+      },
+      "impacto_real": "A dúvida gerada fez eleitores não comparecerem — especialmente idosos e pessoas de baixa escolaridade mais suscetíveis à desinformação",
+      "contexto_oculto": "Sua avó ficou em casa em 2022 porque 'a urna é fraudada de qualquer jeito'. Na sua cidade, a vaga que decidia o prefeito foi definida por 312 votos. Ela ficou em casa.",
+      "pilula_sabedoria": "Desconfiar sem provas não é inteligência crítica — é deixar que a dúvida de outros te faça abrir mão do seu poder.",
+      "modulo": "desinformacao",
+      "dificuldade": 2,
+      "usado_no_jogo": false,
+      "card_gerado": false,
+      "roteiro_tiktok": true,
+      "tags": ["urna eletrônica", "fake news", "eleição", "TSE", "fraude"]
+    },
+
+    {
+      "id": "m006",
+      "meme": "\"Vacina tem chip do governo pra te rastrear\"",
+      "categoria": "desinformacao",
+      "formato": "texto_viral",
+      "origem": "WhatsApp / Telegram / YouTube",
+      "viralizou": "2020-2021",
+      "verificacao": {
+        "status": "falso",
+        "fonte": "Fiocruz / OMS / Agência Pública",
+        "explicacao": "Fisicamente impossível — agulha de vacina não comporta microchip. A teoria surgiu de vídeo descontextualizado de Bill Gates sobre rastreamento de doenças, não de pessoas"
+      },
+      "impacto_real": "Crianças sem vacinar no Oziel: sarampão e coqueluche voltaram em bairros onde a cobertura vacinal caiu abaixo de 70%",
+      "contexto_oculto": "Uma mãe do bairro acreditou e não vacinou os filhos. Dois anos depois, o mais novo pegou coqueluche. A doença quase sumiu do Brasil em 2010. Em 2023 voltou — nos bairros onde a fake news chegou mais.",
+      "pilula_sabedoria": "Chip em seringa é impossível fisicamente. Mas o medo real que a fake news planta adoece de verdade — as crianças que não vacinaram existem.",
+      "modulo": "desinformacao",
+      "dificuldade": 2,
+      "usado_no_jogo": false,
+      "card_gerado": false,
+      "roteiro_tiktok": true,
+      "tags": ["vacina", "chip", "fake news", "saúde pública", "COVID", "desinformação"]
+    },
+
+    {
+      "id": "m007",
+      "meme": "\"Escola está ensinando ideologia de gênero pra criança de 6 anos\"",
+      "categoria": "desinformacao",
+      "formato": "texto_viral",
+      "origem": "WhatsApp / Facebook / YouTube político",
+      "viralizou": "2014, 2018, 2022 — recorrente",
+      "verificacao": {
+        "status": "falso",
+        "fonte": "MEC / PNE / Agência Lupa",
+        "explicacao": "O termo 'ideologia de gênero' não aparece no currículo nacional (BNCC). O que existe é educação sobre respeito às diferenças. O meme surgiu de distorção de materiais didáticos apresentados fora de contexto"
+      },
+      "impacto_real": "Medo gerado fez pais retirarem filhos de escolas públicas e apoiarem cortes no ensino de ciências e história",
+      "contexto_oculto": "A escola que a sua irmã frequenta perdeu 40% da verba de material didático após vereadores usarem esse meme em campanha. Os livros de história foram cortados. Ela vai estudar com fotocópias.",
+      "pilula_sabedoria": "Quando a escola vira inimiga, quem ganha? Não é o seu bairro.",
+      "modulo": "desinformacao",
+      "dificuldade": 3,
+      "usado_no_jogo": false,
+      "card_gerado": false,
+      "roteiro_tiktok": true,
+      "tags": ["escola", "educação", "fake news", "gênero", "BNCC", "pânico moral"]
+    },
+
+    {
+      "id": "m008",
+      "meme": "\"Greve é coisa de vagabundo que não quer trabalhar\"",
+      "categoria": "critica_raza",
+      "formato": "texto_viral",
+      "origem": "WhatsApp / redes sociais",
+      "viralizou": "recorrente — especialmente em greves de transporte",
+      "verificacao": {
+        "status": "enganoso",
+        "fonte": "Constituição Federal art. 9 / OIT",
+        "explicacao": "Greve é direito constitucional (Art. 9 CF/88) e reconhecido pela OIT. A história das 8h de trabalho, férias e 13º começou com greves"
+      },
+      "impacto_real": "Jovens que internalizam esse discurso apoiam políticas que reduzem direitos trabalhistas sem perceber o impacto na própria vida",
+      "contexto_oculto": "O seu direito de trabalhar no máximo 8h por dia existe porque trabalhadores fizeram greve em 1917 em São Paulo. Alguém chamou eles de vagabundos também.",
+      "pilula_sabedoria": "O 13º salário que sua mãe usa pra pagar o material escolar em dezembro veio de greve. Pensa bem antes de xingar quem luta.",
+      "modulo": "participacao",
+      "dificuldade": 2,
+      "usado_no_jogo": false,
+      "card_gerado": false,
+      "roteiro_tiktok": true,
+      "tags": ["greve", "direitos trabalhistas", "constituição", "crítica raza", "trabalho"]
+    },
+
+    {
+      "id": "m009",
+      "meme": "\"Pagar imposto é jogar dinheiro fora, o governo rouba tudo\"",
+      "categoria": "critica_raza",
+      "formato": "texto_viral",
+      "origem": "WhatsApp / redes sociais",
+      "viralizou": "recorrente",
+      "verificacao": {
+        "status": "enganoso",
+        "fonte": "IBGE / Portal da Transparência",
+        "explicacao": "Parte do imposto financia SUS, escola pública, bolsa família. O problema real é a estrutura regressiva (pobres pagam proporcionalmente mais) e corrupção — mas 'governo rouba tudo' impede a discussão real"
+      },
+      "impacto_real": "Discurso anti-imposto beneficia quem quer reduzir gasto social — o SUS, a escola pública e o CAPS dependem de arrecadação",
+      "contexto_oculto": "O CAPS que atende jovens com dependência química no Oziel funciona com verba pública. O ônibus escolar gratuito vem de imposto. Dizer que 'o governo rouba tudo' esconde que esse tudo é também o que chega até você.",
+      "pilula_sabedoria": "Imposto mal gasto merece crítica com nome e CNPJ. 'Governo rouba tudo' é generalização que fecha o debate antes de começar.",
+      "modulo": "territorio",
+      "dificuldade": 2,
+      "usado_no_jogo": false,
+      "card_gerado": false,
+      "roteiro_tiktok": true,
+      "tags": ["imposto", "governo", "SUS", "transparência", "crítica raza"]
+    },
+
+    {
+      "id": "m010",
+      "meme": "\"A ditadura militar foi melhor — pelo menos tinha ordem\"",
+      "categoria": "desinformacao",
+      "formato": "texto_viral",
+      "origem": "WhatsApp / YouTube político",
+      "viralizou": "2015-2022",
+      "verificacao": {
+        "status": "falso",
+        "fonte": "Comissão Nacional da Verdade / IBGE histórico / Arquivo Nacional",
+        "explicacao": "Durante a ditadura: 434 mortos e desaparecidos documentados, tortura sistemática, censura à imprensa, inflação de 110% em 1983, dívida externa multiplicada por 10x. Não havia liberdade de se manifestar como essa frase faz agora"
+      },
+      "impacto_real": "Revisão histórica normaliza autoritarismo e faz jovens apoiarem candidatos que pregam ruptura democrática",
+      "contexto_oculto": "Na ditadura você não poderia fazer esse post. Você poderia ser preso por 'subversão'. Mais de 400 pessoas foram assassinadas pelo Estado. Nenhuma chegou a julgamento.",
+      "pilula_sabedoria": "A 'ordem' da ditadura era: cale a boca ou desapareça. Quem fala isso hoje tem o direito de falar graças a quem lutou contra ela.",
+      "modulo": "desinformacao",
+      "dificuldade": 3,
+      "usado_no_jogo": false,
+      "card_gerado": false,
+      "roteiro_tiktok": true,
+      "tags": ["ditadura militar", "democracia", "revisão histórica", "fake news", "autoritarismo"]
+    },
+
+    {
+      "id": "m011",
+      "meme": "\"O MST invade fazendas e queima plantação dos agricultores\"",
+      "categoria": "desinformacao",
+      "formato": "texto_viral",
+      "origem": "WhatsApp / redes sociais / telejornais sensacionalistas",
+      "viralizou": "recorrente",
+      "verificacao": {
+        "status": "enganoso",
+        "fonte": "Comissão Pastoral da Terra / Agência Pública",
+        "explicacao": "Invasões e incêndios existem mas são exceção — a maioria dos acampamentos ocorre em terras improdutivas (obrigação constitucional de reforma agrária). Crimes são individuais, não política oficial do movimento"
+      },
+      "impacto_real": "Discurso simplificado bloqueia debate real sobre reforma agrária e propriedade improdutiva — e afasta jovens urbanos de questões agrárias que impactam preço dos alimentos",
+      "contexto_oculto": "O tomate que subiu 120% aqui na feira do Oziel tem relação com a concentração de terra que a reforma agrária tentaria resolver. Mas o debate travou no 'MST queima tudo'.",
+      "pilula_sabedoria": "Quando um movimento tem 500 mil pessoas, os crimes de alguns não definem todos. É o mesmo raciocínio que você quer que usem com o seu bairro.",
+      "modulo": "desinformacao",
+      "dificuldade": 3,
+      "usado_no_jogo": false,
+      "card_gerado": false,
+      "roteiro_tiktok": false,
+      "tags": ["MST", "reforma agrária", "fake news", "campo", "desinformação"]
+    },
+
+    {
+      "id": "m012",
+      "meme": "\"Meu voto não muda nada nesse país\"",
+      "categoria": "apatia",
+      "formato": "texto_viral",
+      "origem": "conversa cotidiana / redes sociais",
+      "viralizou": "recorrente — pico pré-eleitoral",
+      "verificacao": {
+        "status": "enganoso",
+        "fonte": "TSE / resultados eleitorais municipais",
+        "explicacao": "Eleições municipais são decididas por centenas de votos. Vereadores são eleitos com menos de 1.000 votos e decidem orçamento da cidade"
+      },
+      "impacto_real": "Abstenção concentrada em periferias significa sub-representação — bairros ricos têm mais eleitores votando proporcionalmente",
+      "contexto_oculto": "Nas últimas eleições municipais de Campinas, 3 vereadores foram eleitos com menos de 800 votos cada. Eles votam sobre o orçamento de saúde do Oziel. Você tem quantos amigos que não foram votar?",
+      "pilula_sabedoria": "Em eleição municipal, 100 amigos que vão votar juntos podem eleger um vereador do bairro. Quantas turmas cabem nisso?",
+      "modulo": "eleicao",
+      "dificuldade": 1,
+      "usado_no_jogo": false,
+      "card_gerado": false,
+      "roteiro_tiktok": true,
+      "tags": ["voto", "apatia", "eleicao municipal", "vereador", "participacao"]
+    },
+
+    {
+      "id": "m013",
+      "meme": "\"ONGs são todas corruptas, vivem de verba pública sem fazer nada\"",
+      "categoria": "critica_raza",
+      "formato": "texto_viral",
+      "origem": "WhatsApp / redes sociais",
+      "viralizou": "2015-2019 / recorrente",
+      "verificacao": {
+        "status": "enganoso",
+        "fonte": "IPEA / Portal da Transparência",
+        "explicacao": "Existem casos de corrupção em ONGs, como em qualquer setor. Mas a maioria opera em territórios onde o Estado não chega. Fiscalização existe via TCU e Ministério Público"
+      },
+      "impacto_real": "Discurso anti-ONG gerou cortes de repasse para organizações que atendem dependentes químicos, acolhem jovens em vulnerabilidade e fazem assistência social em periferias",
+      "contexto_oculto": "A OZipa, que parceiramos aqui no Oziel, é uma OSC. O curso que você está fazendo agora existe porque ela abriu as portas. Se 'toda ONG é corrupta', o quê acontece com esse espaço?",
+      "pilula_sabedoria": "Corrupção tem nome, CPF e processo. 'Todas as ONGs são corruptas' não é crítica — é preguiça intelectual que fecha o que funciona no seu bairro.",
+      "modulo": "territorio",
+      "dificuldade": 2,
+      "usado_no_jogo": false,
+      "card_gerado": false,
+      "roteiro_tiktok": false,
+      "tags": ["ONG", "OSC", "OZipa", "crítica raza", "território", "corrupção"]
+    },
+
+    {
+      "id": "m014",
+      "meme": "\"O Brasil vai virar Venezuela se continuar assim\"",
+      "categoria": "conspiracao",
+      "formato": "texto_viral",
+      "origem": "WhatsApp / redes sociais / mídia conservadora",
+      "viralizou": "2018, 2022",
+      "verificacao": {
+        "status": "enganoso",
+        "fonte": "IBGE / OCDE / análise comparada",
+        "explicacao": "Brasil e Venezuela têm estruturas econômicas, constitucionais e políticas muito distintas. A analogia ignora instituições, pluripartidarismo, Judiciário independente e imprensa livre no Brasil"
+      },
+      "impacto_real": "Medo gerado pelo meme leva eleitores a votos de pânico e afasta jovens de debate real sobre o país",
+      "contexto_oculto": "Enquanto você fica com medo da Venezuela, a privatização da empresa de saneamento de Campinas passou sem debate público. Agora sua conta de água aumentou 34% em dois anos.",
+      "pilula_sabedoria": "O medo de virar Venezuela às vezes esconde o que está de fato mudando no Brasil — e que você nem ficou sabendo.",
+      "modulo": "desinformacao",
+      "dificuldade": 3,
+      "usado_no_jogo": false,
+      "card_gerado": false,
+      "roteiro_tiktok": false,
+      "tags": ["Venezuela", "medo", "conspiração", "política", "fake news"]
+    },
+
+    {
+      "id": "m015",
+      "meme": "\"A imprensa é manipulada, só mostra o que interessa ao governo\"",
+      "categoria": "critica_raza",
+      "formato": "texto_viral",
+      "origem": "WhatsApp / Telegram / YouTube",
+      "viralizou": "recorrente",
+      "verificacao": {
+        "status": "enganoso",
+        "fonte": "RSF (Repórteres sem Fronteiras) / Reporters Without Borders",
+        "explicacao": "Imprensa tem vieses e interesses — mas há diferença entre ter viés e ser 'totalmente manipulada'. Existem agências independentes, jornalismo de dados, fact-checkers. Relativizar tudo cria vácuo para desinformação pior"
+      },
+      "impacto_real": "Quem não confia em nenhuma fonte fica vulnerável às fontes sem critério — geralmente WhatsApp e canais sem verificação",
+      "contexto_oculto": "Fulano disse que 'a imprensa mente tudo', aí passou a se informar só por um canal do YouTube sem editor, sem nome de repórter, sem fonte. No ano seguinte não sabia que a eleição do conselho tutelar do bairro estava marcada.",
+      "pilula_sabedoria": "Checar a fonte é mais poderoso do que rejeitar todas. Jornalismo com viés existe — mas não é igual a inventar. Aprenda a diferença.",
+      "modulo": "desinformacao",
+      "dificuldade": 2,
+      "usado_no_jogo": false,
+      "card_gerado": false,
+      "roteiro_tiktok": true,
+      "tags": ["imprensa", "mídia", "fact-checking", "desinformação", "crítica raza"]
+    },
+
+    {
+      "id": "m016",
+      "meme": "\"Não tem diferença entre esquerda e direita, são tudo igual\"",
+      "categoria": "apatia",
+      "formato": "texto_viral",
+      "origem": "WhatsApp / redes sociais",
+      "viralizou": "recorrente",
+      "verificacao": {
+        "status": "enganoso",
+        "fonte": "Análise de votações / Diário do Congresso Nacional",
+        "explicacao": "Votações sobre reforma trabalhista, teto de gastos, privatizações, SUS mostram diferenças reais entre parlamentares. A ilusão da igualdade gera abstenção que beneficia quem quer manutenção do status quo"
+      },
+      "impacto_real": "A reforma trabalhista de 2017 foi aprovada por 225 x 224 — um único voto. Ela mudou as regras de contratação de toda uma geração de trabalhadores",
+      "contexto_oculto": "A reforma que tirou o direito à jornada contínua e criou o trabalho intermitente foi aprovada no Congresso por 1 voto de diferença. O vereador que votou pelo fechamento da padaria social do bairro foi eleito por 60 votos. 'São tudo igual' fez sentido nessa hora?",
+      "pilula_sabedoria": "A diferença entre candidatos não aparece no discurso de campanha — aparece nos votos do Diário Oficial. Isso é público e você pode checar.",
+      "modulo": "eleicao",
+      "dificuldade": 2,
+      "usado_no_jogo": false,
+      "card_gerado": false,
+      "roteiro_tiktok": true,
+      "tags": ["esquerda", "direita", "apatia", "reforma trabalhista", "diferença política"]
+    },
+
+    {
+      "id": "m017",
+      "meme": "\"Manifestação não resolve nada, é só bagunça e vandalismo\"",
+      "categoria": "critica_raza",
+      "formato": "texto_viral",
+      "origem": "WhatsApp / redes sociais / mídia",
+      "viralizou": "recorrente — especialmente após manifestações",
+      "verificacao": {
+        "status": "enganoso",
+        "fonte": "Ciência política / história brasileira",
+        "explicacao": "Manifestações históricas resultaram em: Diretas Já (pressão por eleições diretas), Fora Collor (impeachment), manifestações de 2013 (aprovação de PECs de transporte). Vandalismos são isolados e usados para invalidar o todo"
+      },
+      "impacto_real": "Deslegitimar manifestações reduz pressão popular sobre parlamentares e facilita aprovação de leis impopulares sem resistência",
+      "contexto_oculto": "O passe livre estudantil que você usa no ônibus existe porque estudantes protestaram em 2013 aqui em Campinas e pressionaram a Câmara. Alguém chamou de bagunça na época também.",
+      "pilula_sabedoria": "O 'vandalismo' que aparece no jornal geralmente é 1% da manifestação. Os outros 99% não aparecem. Quem define o que vira notícia também está fazendo política.",
+      "modulo": "participacao",
+      "dificuldade": 2,
+      "usado_no_jogo": false,
+      "card_gerado": false,
+      "roteiro_tiktok": false,
+      "tags": ["manifestação", "protesto", "história", "crítica raza", "participação"]
+    },
+
+    {
+      "id": "m018",
+      "meme": "\"O Conselho Tutelar não resolve nada, é só burocracia\"",
+      "categoria": "apatia",
+      "formato": "texto_viral",
+      "origem": "conversa cotidiana no bairro",
+      "viralizou": "local — Campinas",
+      "verificacao": {
+        "status": "enganoso",
+        "fonte": "ECA / Conselho Tutelar de Campinas",
+        "explicacao": "Conselho Tutelar tem poder legal de requisitar serviços, aplicar medidas de proteção e acionar Ministério Público. A eleição do CT é local e direta — moradores votam"
+      },
+      "impacto_real": "Eleição do Conselho Tutelar do Oziel foi decidida com menos de 300 votos totais. Quem é eleito decide quais famílias do bairro recebem proteção",
+      "contexto_oculto": "A eleição do Conselho Tutelar do Jardim Oziel foi decidida por 87 votos de diferença. O conselheiro eleito prioriza os casos que chega primeiro. Sua vizinha esperou 40 dias por atendimento. A conselheira derrotada por 87 votos teria ido em 3 dias.",
+      "pilula_sabedoria": "O Conselho Tutelar é eleito por você, serve no seu bairro e pode mudar a vida da sua família. 87 votos decidem isso. Você conhece quem votou?",
+      "modulo": "territorio",
+      "dificuldade": 2,
+      "usado_no_jogo": false,
+      "card_gerado": false,
+      "roteiro_tiktok": true,
+      "tags": ["conselho tutelar", "eleição local", "bairro", "participação", "Campinas"]
+    },
+
+    {
+      "id": "m019",
+      "meme": "\"Voto nulo é voto de protesto, faz diferença\"",
+      "categoria": "apatia",
+      "formato": "texto_viral",
+      "origem": "WhatsApp / redes sociais",
+      "viralizou": "recorrente — pico eleitoral",
+      "verificacao": {
+        "status": "enganoso",
+        "fonte": "TSE / sistema eleitoral brasileiro",
+        "explicacao": "No Brasil, votos nulos e brancos não são contabilizados. O candidato vencedor é eleito pela maioria dos votos válidos. Voto nulo não redistribui para ninguém — apenas reduz o total de votantes válidos"
+      },
+      "impacto_real": "Concentração de votos nulos em periferias diminui o poder eleitoral dessas regiões, sem enviar nenhuma mensagem política formal",
+      "contexto_oculto": "Em 2020 em Campinas, 12% dos votos foram nulos ou brancos. O prefeito foi eleito com 51% dos votos válidos. Todos os nulos poderiam ter mudado o resultado — e não enviaram nenhuma mensagem oficial que obrigasse alguém a ouvir.",
+      "pilula_sabedoria": "Voto nulo é silêncio — não é grito. Se quer se manifestar, aparece na eleição com um candidato real ou vai à audiência pública. Isso obriga resposta.",
+      "modulo": "eleicao",
+      "dificuldade": 2,
+      "usado_no_jogo": false,
+      "card_gerado": false,
+      "roteiro_tiktok": false,
+      "tags": ["voto nulo", "eleição", "protesto", "TSE", "apatia"]
+    },
+
+    {
+      "id": "m020",
+      "meme": "\"Ativismo de jovem é só modinha pra aparecer nas redes\"",
+      "categoria": "critica_raza",
+      "formato": "texto_viral",
+      "origem": "WhatsApp / conversa cotidiana",
+      "viralizou": "recorrente",
+      "verificacao": {
+        "status": "enganoso",
+        "fonte": "História dos movimentos de juventude brasileiros",
+        "explicacao": "Grêmios estudantis, UNE, jovens da Ação Popular foram protagonistas na luta pelas Diretas Já e contra a ditadura. Ativismo jovem tem histórico de mudança concreta no Brasil"
+      },
+      "impacto_real": "Deslegitimar ativismo jovem afasta jovens de espaços de participação e perpetua ausência da juventude periférica nas decisões",
+      "contexto_oculto": "O movimento estudantil de 1968 era chamado de 'modinha de playboy'. Eles foram presos, torturados e exilados. Hoje temos liberdade de imprensa porque eles insistiram mesmo assim.",
+      "pilula_sabedoria": "Quem te diz que sua luta é modinha geralmente é quem não quer que você apareça. Aparecer e pressionar já é metade da mudança.",
+      "modulo": "participacao",
+      "dificuldade": 2,
+      "usado_no_jogo": false,
+      "card_gerado": false,
+      "roteiro_tiktok": true,
+      "tags": ["ativismo", "jovem", "crítica raza", "participação", "movimento estudantil"]
+    },
+
+    {
+      "id": "m021",
+      "meme": "\"O governo quer tomar nossas armas pra ninguém poder se defender\"",
+      "categoria": "conspiracao",
+      "formato": "texto_viral",
+      "origem": "WhatsApp / Telegram / YouTube",
+      "viralizou": "2019-2022",
+      "verificacao": {
+        "status": "enganoso",
+        "fonte": "Estatuto do Desarmamento / Legislação vigente",
+        "explicacao": "Debate sobre armas é sobre regulação, não confisco. Nenhuma proposta aprovada previu confisco universal. O medo do confisco é alimentado por grupos de interesse da indústria armamentista"
+      },
+      "impacto_real": "Medo gerado mobilizou votos de uma agenda que flexibilizou porte e posse — com aumento de armas em circulação e homicídios em periferias",
+      "contexto_oculto": "A flexibilização do porte de armas aprovada em 2019 não tornou os bairros mais seguros. No Jardim Oziel e na DIC, os homicídios por arma de fogo aumentaram 18% no período. Quem votou por medo do 'confisco' não sabia que a arma que mais circularia seria no bairro dele.",
+      "pilula_sabedoria": "A arma não protege quem mora na periferia — ela circula na periferia. Quem lucra com o medo do confisco mora em condomínio fechado.",
+      "modulo": "desinformacao",
+      "dificuldade": 3,
+      "usado_no_jogo": false,
+      "card_gerado": false,
+      "roteiro_tiktok": false,
+      "tags": ["armas", "medo", "conspiração", "segurança pública", "periferia"]
+    },
+
+    {
+      "id": "m022",
+      "meme": "\"Feminismo é coisa de mulher que odeia homem\"",
+      "categoria": "preconceito",
+      "formato": "texto_viral",
+      "origem": "WhatsApp / redes sociais / YouTube",
+      "viralizou": "recorrente",
+      "verificacao": {
+        "status": "enganoso",
+        "fonte": "História do feminismo / dados de violência de gênero",
+        "explicacao": "Feminismo é movimento por igualdade de direitos e oportunidades. Homens também são feministas. A distorção 'odeia homem' foi criada para deslegitimar a luta e afastar aliados"
+      },
+      "impacto_real": "A distorção afasta homens jovens do debate de gênero — que inclui questões que os afetam como masculinidade tóxica, pressão econômica e saúde mental masculina",
+      "contexto_oculto": "A Lei Maria da Penha existe por pressão do movimento feminista. Ela protege sua mãe, sua irmã, sua namorada. Em Campinas, 1 mulher por semana registra boletim de ocorrência por violência doméstica no Oziel.",
+      "pilula_sabedoria": "Feminismo não é sobre oposição entre homens e mulheres — é sobre não aceitar que sua irmã ganhe menos por fazer o mesmo trabalho que você.",
+      "modulo": "desinformacao",
+      "dificuldade": 2,
+      "usado_no_jogo": false,
+      "card_gerado": false,
+      "roteiro_tiktok": false,
+      "tags": ["feminismo", "gênero", "preconceito", "Lei Maria da Penha", "violência doméstica"]
+    },
+
+    {
+      "id": "m023",
+      "meme": "\"Vereador é tudo ladrão, nem adianta votar\"",
+      "categoria": "apatia",
+      "formato": "texto_viral",
+      "origem": "WhatsApp / conversa cotidiana",
+      "viralizou": "recorrente",
+      "verificacao": {
+        "status": "enganoso",
+        "fonte": "Câmara Municipal de Campinas / histórico de votações",
+        "explicacao": "Existem vereadores condenados e vereadores com histórico limpo. A generalização impede que eleitores distingam e premia os piores com a abstenção dos melhores"
+      },
+      "impacto_real": "A creche do Jardim Oziel perdeu verba numa votação de câmara. Nenhum morador do bairro foi à audiência pública três semanas antes",
+      "contexto_oculto": "A creche do Jardim Oziel vai fechar por falta de verba. A câmara votou ontem. Nenhum morador do bairro foi à audiência pública marcada há três semanas. O vereador que poderia ter salvado a verba perdeu por dois votos.",
+      "pilula_sabedoria": "Quando você diz que 'todos são ladrões' e fica em casa, você deixa os ladrões votando sem oposição. A abstenção não é protesto — é presente.",
+      "modulo": "eleicao",
+      "dificuldade": 1,
+      "usado_no_jogo": true,
+      "card_gerado": true,
+      "roteiro_tiktok": false,
+      "tags": ["vereador", "câmara", "apatia", "eleição", "creche", "Oziel"]
+    },
+
+    {
+      "id": "m024",
+      "meme": "\"Cota racial é racismo ao contrário\"",
+      "categoria": "preconceito",
+      "formato": "texto_viral",
+      "origem": "WhatsApp / redes sociais",
+      "viralizou": "recorrente — especialmente em períodos de vestibular",
+      "verificacao": {
+        "status": "enganoso",
+        "fonte": "STF (ADPF 186) / IBGE / dados educacionais",
+        "explicacao": "STF declarou cotas constitucionais em 2012. IBGE mostra que negros representam 56% da população mas apenas 18% dos formados em universidades públicas antes das cotas. Ação afirmativa não é discriminação — é correção de desigualdade estrutural histórica"
+      },
+      "impacto_real": "Hostilidade a cotas afasta jovens negros do acesso ao ensino superior e mantém desigualdade estrutural",
+      "contexto_oculto": "No Jardim Oziel, 78% dos jovens são pretos ou pardos. Antes das cotas, menos de 2% dos alunos da Unicamp vinham de bairros como o Oziel. Hoje são 8%. Quem ganha com o argumento de que isso é 'injusto'?",
+      "pilula_sabedoria": "Igualdade não é dar a mesma coisa a quem começou de lugares diferentes — é reconhecer que a largada não foi igual e ajustar isso.",
+      "modulo": "territorio",
+      "dificuldade": 3,
+      "usado_no_jogo": false,
+      "card_gerado": false,
+      "roteiro_tiktok": false,
+      "tags": ["cotas", "racismo", "universidade", "ensino superior", "desigualdade"]
+    },
+
+    {
+      "id": "m025",
+      "meme": "\"Orçamento participativo não muda nada, o dinheiro some\"",
+      "categoria": "apatia",
+      "formato": "texto_viral",
+      "origem": "conversa cotidiana / WhatsApp",
+      "viralizou": "local — Campinas",
+      "verificacao": {
+        "status": "enganoso",
+        "fonte": "Prefeitura de Campinas / OP Campinas histórico",
+        "explicacao": "O Orçamento Participativo de Campinas tem histórico de obras realizadas mediante votação popular. Problemas existem, mas a ferramenta tem resultados documentados"
+      },
+      "impacto_real": "A descrença faz bairros periféricos votarem menos no OP, concentrando recursos em bairros que participam mais",
+      "contexto_oculto": "O campo society que o OP aprovou pra um bairro vizinho ao Oziel foi votado por 340 pessoas. No Oziel, 12 moradores votaram. O campo não veio pro Oziel. Veio pra quem foi votar.",
+      "pilula_sabedoria": "Orçamento participativo não é perfeito. Mas quando você não vota, o dinheiro vai pra quem votou. Em geral, não é seu bairro.",
+      "modulo": "territorio",
+      "dificuldade": 2,
+      "usado_no_jogo": false,
+      "card_gerado": false,
+      "roteiro_tiktok": true,
+      "tags": ["orçamento participativo", "Campinas", "território", "participação", "recursos públicos"]
+    },
+
+    {
+      "id": "m026",
+      "meme": "\"Essas ONGs de direitos humanos só defendem bandido\"",
+      "categoria": "critica_raza",
+      "formato": "texto_viral",
+      "origem": "WhatsApp / redes sociais",
+      "viralizou": "recorrente",
+      "verificacao": {
+        "status": "enganoso",
+        "fonte": "Constituição Federal art. 5 / histórico de organizações de DH",
+        "explicacao": "Organizações de direitos humanos trabalham com violência doméstica, trabalho escravo, criança e adolescente, saúde pública — não apenas sistema prisional. A redução ao 'bandido' é estratégia para descreditar toda a agenda de direitos"
+      },
+      "impacto_real": "Discurso anti-DH facilitou cortes em programas de proteção a adolescentes em vulnerabilidade — exatamente o público do Jardim Oziel",
+      "contexto_oculto": "O programa de acompanhamento de adolescentes que saem de medida socioeducativa aqui em Campinas é financiado por uma ONG de direitos humanos. Em 2022, o corte de verba fez 80 jovens ficarem sem acompanhamento. 3 voltaram pra tráfico.",
+      "pilula_sabedoria": "Direitos humanos incluem seus direitos — à saúde, à educação, a não ser torturado, a ter família. Quando você ataca esses grupos, você ataca sua própria segurança.",
+      "modulo": "territorio",
+      "dificuldade": 2,
+      "usado_no_jogo": false,
+      "card_gerado": false,
+      "roteiro_tiktok": false,
+      "tags": ["direitos humanos", "ONG", "crítica raza", "adolescente", "vulnerabilidade"]
+    },
+
+    {
+      "id": "m027",
+      "meme": "\"Jovem que se mete em política está sendo manipulado por adulto\"",
+      "categoria": "apatia",
+      "formato": "texto_viral",
+      "origem": "conversa cotidiana / família",
+      "viralizou": "local — vem de adultos para jovens",
+      "verificacao": {
+        "status": "enganoso",
+        "fonte": "ECA / história do ativismo jovem",
+        "explicacao": "O ECA foi escrito também com participação de jovens. Grêmios estudantis são espaços autônomos de gestão jovem. A infantilização do ativismo jovem é usada para afastar adolescentes da política"
+      },
+      "impacto_real": "Jovens que internalizam isso abrem mão de ferramentas de participação que foram pensadas pra eles — como o grêmio estudantil",
+      "contexto_oculto": "O grêmio da sua escola pode propor mudanças no calendário, na merenda, em projetos culturais. Esse espaço foi conquistado por jovens que se recusaram a acreditar que eram 'só manipulados'. Ele ainda existe — você usa?",
+      "pilula_sabedoria": "Adulto que diz que jovem político está manipulado é o mesmo adulto que quer que você fique quieto. Pensa quem se beneficia do seu silêncio.",
+      "modulo": "participacao",
+      "dificuldade": 2,
+      "usado_no_jogo": false,
+      "card_gerado": false,
+      "roteiro_tiktok": true,
+      "tags": ["jovem", "política", "manipulação", "grêmio", "participação", "ECA"]
+    },
+
+    {
+      "id": "m028",
+      "meme": "\"LGBTQ+ é agenda de destruição da família\"",
+      "categoria": "preconceito",
+      "formato": "texto_viral",
+      "origem": "WhatsApp / grupos religiosos radicalizados / YouTube",
+      "viralizou": "recorrente",
+      "verificacao": {
+        "status": "falso",
+        "fonte": "APA / CFP / dados de saúde mental",
+        "explicacao": "Nenhuma evidência científica apoia a ideia de que diversidade sexual 'destrói' famílias. O que dados mostram: adolescentes LGBTQ+ em famílias acolhedoras têm taxas de suicídio 75% menores. Rejeição familiar, não aceitação, é o fator de risco"
+      },
+      "impacto_real": "O discurso aumenta rejeição familiar de adolescentes LGBTQ+ — principal fator de risco para suicídio nessa população",
+      "contexto_oculto": "No Oziel, como em todo bairro popular, há adolescentes LGBTQ+. Os que têm família que aceita terminam o ensino médio a uma taxa 3x maior. Os que são expulsos de casa pela 'defesa da família' chegam nos centros de acolhimento.",
+      "pilula_sabedoria": "A família que esse meme diz defender expulsa filhos de casa. Quem se preocupa com família cuida de quem está dentro dela.",
+      "modulo": "desinformacao",
+      "dificuldade": 3,
+      "usado_no_jogo": false,
+      "card_gerado": false,
+      "roteiro_tiktok": false,
+      "tags": ["LGBTQ+", "família", "preconceito", "saúde mental", "adolescente", "suicídio"]
+    },
+
+    {
+      "id": "m029",
+      "meme": "\"Politicamente correto é censura, não posso mais falar nada\"",
+      "categoria": "critica_raza",
+      "formato": "texto_viral",
+      "origem": "WhatsApp / redes sociais / podcasts",
+      "viralizou": "recorrente",
+      "verificacao": {
+        "status": "enganoso",
+        "fonte": "Marco Civil da Internet / Constituição Federal",
+        "explicacao": "Liberdade de expressão existe, mas não inclui discurso de ódio (STF). 'Politicamente correto' geralmente significa 'pessoas que não eram ouvidas começaram a responder'. Não é censura — é consequência social"
+      },
+      "impacto_real": "O medo da 'censura' é usado para normalizar ofensas a grupos vulneráveis e afastar jovens do debate sobre respeito",
+      "contexto_oculto": "Você ainda pode falar tudo que pensava antes. O que mudou é que as pessoas que você ofendia agora respondem. Isso não é censura — é diálogo. E diálogo é o que a democracia usa em vez de porrada.",
+      "pilula_sabedoria": "Liberdade de expressão não protege você das consequências do que fala — só protege você do Estado te prender por isso. São coisas diferentes.",
+      "modulo": "desinformacao",
+      "dificuldade": 2,
+      "usado_no_jogo": false,
+      "card_gerado": false,
+      "roteiro_tiktok": false,
+      "tags": ["politicamente correto", "liberdade de expressão", "censura", "crítica raza", "direitos"]
+    },
+
+    {
+      "id": "m030",
+      "meme": "\"Recebeu Bolsa Família, tá votando obrigado — compra de voto\"",
+      "categoria": "preconceito",
+      "formato": "texto_viral",
+      "origem": "WhatsApp / redes sociais / mídia",
+      "viralizou": "recorrente — especialmente eleitoral",
+      "verificacao": {
+        "status": "enganoso",
+        "fonte": "Agência Lupa / pesquisas eleitorais / dados IBGE",
+        "explicacao": "Pesquisas mostram que beneficiários votam por razões diversas — segurança, saúde, educação, medo de perder. O meme criminaliza o voto de pessoas pobres e ignora que ricos também votam por interesse econômico"
+      },
+      "impacto_real": "O preconceito afasta beneficiários de exercer o voto com autonomia — por vergonha — e legitima narrativas que criminalizam a pobreza",
+      "contexto_oculto": "Sua vizinha recebe Bolsa Família e vota. Um empresário recebe subsídio fiscal de R$ 500 mil do governo e também vota. A mídia fala de qual dos dois está 'comprando voto'?",
+      "pilula_sabedoria": "Todo mundo vota por interesse. A diferença é que quando o pobre faz isso, chama de 'curral eleitoral'. Quando o rico faz, chama de 'análise racional de custo-benefício'.",
+      "modulo": "eleicao",
+      "dificuldade": 3,
+      "usado_no_jogo": false,
+      "card_gerado": false,
+      "roteiro_tiktok": false,
+      "tags": ["Bolsa Família", "compra de voto", "preconceito", "pobreza", "eleição"]
+    }
+
+  ],
+  "fontes_verificacao": [
+    {"nome": "Agência Lupa", "url": "https://lupa.uol.com.br", "tipo": "fact-checking"},
+    {"nome": "Aos Fatos", "url": "https://aosfatos.org", "tipo": "fact-checking"},
+    {"nome": "G1 Fato ou Fake", "url": "https://g1.globo.com/fato-ou-fake", "tipo": "fact-checking"},
+    {"nome": "Agência Pública", "url": "https://apublica.org", "tipo": "jornalismo investigativo"},
+    {"nome": "E-Farsas", "url": "https://www.e-farsas.com", "tipo": "fact-checking"},
+    {"nome": "Boatos.org", "url": "https://www.boatos.org", "tipo": "fact-checking"},
+    {"nome": "Portal da Transparência", "url": "https://transparencia.gov.br", "tipo": "dados governamentais"},
+    {"nome": "TSE", "url": "https://www.tse.jus.br", "tipo": "dados eleitorais"},
+    {"nome": "IBGE", "url": "https://www.ibge.gov.br", "tipo": "dados sociodemográficos"},
+    {"nome": "Câmara Municipal de Campinas", "url": "https://www.campinas.sp.leg.br", "tipo": "dados locais"}
+  ],
+  "modulos": [
+    {"id": "eleicao", "label": "Eleição", "cor": "#E8431E"},
+    {"id": "desinformacao", "label": "Desinformação", "cor": "#2D5944"},
+    {"id": "participacao", "label": "Participação", "cor": "#8A5611"},
+    {"id": "territorio", "label": "Território", "cor": "#2A3F66"}
+  ]
+}

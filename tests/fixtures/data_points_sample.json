@@ -1,0 +1,46 @@
+[
+  {
+    "skill": "tse_data",
+    "indicador": "Mínimo votos vereador eleito Campinas 2024",
+    "valor": "480",
+    "unidade": "votos",
+    "fonte": "TSE — Resultados Eleições 2024",
+    "fonte_url": "https://dadosabertos.tse.jus.br/dataset/resultados-2024",
+    "localidade_nome": "Campinas",
+    "localidade_nivel": 2,
+    "ano_referencia": "2024"
+  },
+  {
+    "skill": "ibge_demografico",
+    "indicador": "População residente",
+    "valor": "1213792",
+    "unidade": "habitantes",
+    "fonte": "IBGE Censo 2022",
+    "fonte_url": "https://servicodados.ibge.gov.br/api/v3/agregados/9514",
+    "localidade_nome": "Campinas",
+    "localidade_nivel": 2,
+    "ano_referencia": "2022"
+  },
+  {
+    "skill": "tse_data",
+    "indicador": "Percentual comparecimento eleitoral",
+    "valor": "76.3",
+    "unidade": "%",
+    "fonte": "TSE — Dados Eleitorais 2024",
+    "fonte_url": "https://dadosabertos.tse.jus.br",
+    "localidade_nome": "Campinas",
+    "localidade_nivel": 2,
+    "ano_referencia": "2024"
+  },
+  {
+    "skill": "ssp_violencia",
+    "indicador": "Homicídios dolosos",
+    "valor": "89",
+    "unidade": "casos/ano",
+    "fonte": "SSP-SP — Estatísticas de Criminalidade 2024",
+    "fonte_url": "https://www.ssp.sp.gov.br/estatistica",
+    "localidade_nome": "Campinas",
+    "localidade_nivel": 2,
+    "ano_referencia": "2024"
+  }
+]

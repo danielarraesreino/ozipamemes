@@ -1,0 +1,22 @@
+{
+  "id": "m001",
+  "meme_texto": "Todos os políticos são ladrões, tanto faz votar",
+  "categoria": "apatia",
+  "formato": "texto_viral",
+  "origem": "WhatsApp / redes sociais",
+  "viralizou": "recorrente",
+  "modulo": "eleicao",
+  "dificuldade": 1,
+  "tags": ["apatia", "eleicao", "voto", "vereador", "participacao"],
+  "usado_no_jogo": true,
+  "card_gerado": true,
+  "roteiro_tiktok": true,
+  "source_url": "https://piaui.folha.uol.com.br/lupa/2024/08/fake-vereadores",
+  "source_rss": "lupa",
+  "verificacao": {
+    "status": "enganoso",
+    "fonte": "TSE / Transparência Internacional",
+    "agencia": "lupa",
+    "explicacao": "Generalização que ignora diferenças reais entre mandatos"
+  }
+}

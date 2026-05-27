@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0">
+  <channel>
+    <title>Agência Lupa</title>
+    <link>https://piaui.folha.uol.com.br/lupa/</link>
+    <description>Primeira agência de fact-checking do Brasil</description>
+    <item>
+      <title>É falso que "o governo vai cortar o Bolsa Família semana que vem"</title>
+      <link>https://piaui.folha.uol.com.br/lupa/2024/10/falso-bolsa-familia-corte/</link>
+      <description>Compartilha aí — o governo vai cortar o Bolsa Família semana que vem! A informação é falsa. O benefício não foi cortado. A desinformação surgiu de grupos políticos às vésperas da eleição.</description>
+      <pubDate>Mon, 20 Oct 2024 10:00:00 -0300</pubDate>
+      <category>FALSO</category>
+    </item>
+    <item>
+      <title>Notícia sobre reforma educacional aprovada no Congresso</title>
+      <link>https://piaui.folha.uol.com.br/lupa/2024/10/reforma-educacional/</link>
+      <description>O Congresso Nacional aprovou nesta terça-feira uma reforma no sistema educacional que afeta o ensino médio em todo o país.</description>
+      <pubDate>Tue, 21 Oct 2024 14:00:00 -0300</pubDate>
+      <category>NOTÍCIA</category>
+    </item>
+    <item>
+      <title>É enganoso que "urna eletrônica é fraudada — prove que não é"</title>
+      <link>https://piaui.folha.uol.com.br/lupa/2022/10/enganoso-urna-eletronica/</link>
+      <description>A urna eletrônica é fraudada — prove que não é! A afirmação é enganosa. A urna passou por auditorias técnicas e nenhuma fraude foi comprovada. A inversão do ônus da prova é uma falácia lógica usada para semear dúvidas.</description>
+      <pubDate>Wed, 05 Oct 2022 09:00:00 -0300</pubDate>
+      <category>ENGANOSO</category>
+    </item>
+    <item>
+      <title>Todos os vereadores são ladrões, tanto faz votar — ENGANOSO</title>
+      <link>https://piaui.folha.uol.com.br/lupa/2024/09/enganoso-vereadores-ladroes/</link>
+      <description>Circula nas redes: "Todos os políticos são ladrões, tanto faz votar". A afirmação é enganosa. Existem vereadores condenados e outros com histórico limpo. Eleições municipais são decididas por centenas de votos.</description>
+      <pubDate>Fri, 13 Sep 2024 11:30:00 -0300</pubDate>
+      <category>ENGANOSO</category>
+    </item>
+  </channel>
+</rss>
