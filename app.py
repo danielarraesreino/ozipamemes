@@ -470,6 +470,7 @@ elif pagina == "⚙️ Pipeline":
             out = run_cmd(["--gerar-cards"])
         _src = ROOT / "output" / "dilemas" / "dilemas_gerados.ts"
         _dst = Path("/home/dan/Área de Trabalho/jogo_ozipa/src/lib/dilemas_gerados.ts")
+        # O arquivo exportado é importado pelo jogo em dilemas_gerados.ts (stub vazio por padrão)
         if _src.exists():
             _content = _src.read_text(encoding="utf-8")
             _dst.parent.mkdir(parents=True, exist_ok=True)

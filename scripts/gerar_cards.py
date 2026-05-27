@@ -38,6 +38,7 @@ def meme_para_dilema(m, idx):
         "verificacao_status": m["verificacao"]["status"],
         "dificuldade": m.get("dificuldade", 2),
         "impacto_real": m.get("impacto_real", ""),
+        "video_url": m.get("video_url", ""),
     }
 
 
@@ -57,6 +58,7 @@ def gerar_typescript(dilemas):
         "  verificacao_status: string",
         "  dificuldade: number",
         "  impacto_real?: string",
+        "  video_url?: string",
         "}",
         "",
         "export const dilemas: Dilema[] = ["
@@ -76,6 +78,8 @@ def gerar_typescript(dilemas):
         linhas.append(f'    dificuldade: {d["dificuldade"]},')
         if d.get("impacto_real"):
             linhas.append(f'    impacto_real: {json.dumps(d["impacto_real"], ensure_ascii=False)},')
+        if d.get("video_url"):
+            linhas.append(f'    video_url: {json.dumps(d["video_url"], ensure_ascii=False)},')
         linhas.append("  },")
 
     linhas.append("]")
