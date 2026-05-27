@@ -17,6 +17,7 @@ pandas>=2.2.0
 
 # Banco de dados
 psycopg2-binary>=2.9.9
+supabase>=2.4.0
 
 # Dev / env
 python-dotenv>=1.0.0
