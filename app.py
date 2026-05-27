@@ -4,9 +4,11 @@ Cidadania Conectada: Vozes do Oziel
 """
 from __future__ import annotations
 
+import io
 import json
 import subprocess
 import sys
+import zipfile
 from pathlib import Path
 
 import streamlit as st
@@ -98,7 +100,7 @@ with st.sidebar:
     st.divider()
 
     pagina = st.radio(
-        "nav", ["📊 Dashboard", "📋 Memes", "🔄 Fila", "⚙️ Pipeline"],
+        "nav", ["📊 Dashboard", "📋 Memes", "🔄 Fila", "⚙️ Pipeline", "🖼️ Galeria"],
         label_visibility="collapsed",
     )
     st.divider()
@@ -283,6 +285,58 @@ elif pagina == "📋 Memes":
                         height=80, disabled=True, key=f"txt_{m['id']}"
                     )
 
+                    # ── Preview card do jogo ──────────────────────────────
+                    st.caption("Preview — como aparece no jogo")
+                    _verif = load_verificacao(m["id"])
+                    _status = _verif.get("status", "") if _verif else ""
+                    _badge = STATUS_EMOJI.get(_status, "")
+                    _modulo = (m.get("modulo") or "").upper()
+                    _texto = m.get("meme_texto", "").replace("<", "&lt;").replace(">", "&gt;")
+                    _img_path = get_image(m["id"])
+                    _img_html = ""
+                    if _img_path:
+                        import base64
+                        _img_bytes = Path(_img_path).read_bytes()
+                        _img_b64 = base64.b64encode(_img_bytes).decode()
+                        _ext = Path(_img_path).suffix.lstrip(".").lower()
+                        _mime = "image/jpeg" if _ext in ("jpg", "jpeg") else f"image/{_ext}"
+                        _img_html = (
+                            f'<img src="data:{_mime};base64,{_img_b64}" '
+                            f'style="width:100%;max-height:120px;object-fit:cover;'
+                            f'border-radius:8px 8px 0 0;display:block;" />'
+                        )
+                    _badge_html = (
+                        f'<span style="position:absolute;top:10px;right:12px;'
+                        f'font-size:18px;">{_badge}</span>'
+                        if _badge else ""
+                    )
+                    _card_html = f"""
+<div style="
+    background:#1C1C1E;
+    border:1px solid #2C2C2E;
+    border-radius:16px;
+    max-width:320px;
+    margin:8px auto;
+    overflow:hidden;
+    position:relative;
+    font-family:system-ui,sans-serif;
+">
+    {_img_html}
+    {_badge_html}
+    <div style="padding:14px 16px 6px 16px;">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;">
+            <span style="font-family:monospace;font-size:11px;color:#888;text-transform:uppercase;letter-spacing:1px;">{_modulo}</span>
+            <span style="font-family:monospace;font-size:11px;color:#555;">arrastar →</span>
+        </div>
+        <p style="color:#F5F0E8;font-size:20px;font-weight:700;text-align:center;margin:16px 0 20px 0;line-height:1.35;">{_texto}</p>
+    </div>
+    <div style="padding:10px 16px 14px 16px;border-top:1px solid #2C2C2E;">
+        <span style="font-family:monospace;font-size:11px;color:#555;">← discordo &nbsp;&nbsp;/&nbsp;&nbsp; concordo →</span>
+    </div>
+</div>
+"""
+                    st.markdown(_card_html, unsafe_allow_html=True)
+
                 with tabs[1]:
                     # Aba Freakonomics — dado oculto
                     if conteudo:
@@ -393,7 +447,7 @@ elif pagina == "⚙️ Pipeline":
 
     st.divider()
     st.subheader("Exportar")
-    e1, e2, e3 = st.columns(3)
+    e1, e2, e3, e4 = st.columns(4)
 
     if e1.button("🃏 Gerar cards (.ts + .json)", use_container_width=True):
         with st.spinner("Exportando…"):
@@ -410,6 +464,21 @@ elif pagina == "⚙️ Pipeline":
             out = run_cmd(["--from-json"])
         st.cache_data.clear()
         st.text(out)
+
+    if e4.button("🚀 Exportar pro jogo", use_container_width=True, type="primary"):
+        with st.spinner("Gerando e copiando dilemas_gerados.ts…"):
+            out = run_cmd(["--gerar-cards"])
+        _src = ROOT / "output" / "dilemas" / "dilemas_gerados.ts"
+        _dst = Path("/home/dan/Área de Trabalho/jogo_ozipa/src/lib/dilemas_gerados.ts")
+        if _src.exists():
+            _content = _src.read_text(encoding="utf-8")
+            _dst.parent.mkdir(parents=True, exist_ok=True)
+            _dst.write_text(_content, encoding="utf-8")
+            st.success("✅ dilemas_gerados.ts copiado pro jogo!")
+            st.code(_content[:500] + "...", language="typescript")
+        else:
+            st.warning(f"Arquivo não encontrado: {_src}")
+            st.text(out)
 
     st.divider()
     st.subheader("Imagens")
@@ -447,3 +516,60 @@ elif pagina == "⚙️ Pipeline":
                 )
     else:
         st.info("Nenhum output gerado ainda. Clique em 'Gerar cards'.")
+
+# ═════════════════════════════════════════════════════════════════════════════
+# GALERIA
+# ═════════════════════════════════════════════════════════════════════════════
+elif pagina == "🖼️ Galeria":
+    st.title("🖼️ Galeria de Memes")
+
+    memes = load_memes()
+    com_img = [m for m in memes if get_image(m["id"])]
+    sem_img = [m for m in memes if not get_image(m["id"])]
+
+    st.metric("Memes com imagem", f"{len(com_img)} de {len(memes)}")
+    st.divider()
+
+    # Grid de memes com imagem
+    if com_img:
+        cols = st.columns(3)
+        for i, m in enumerate(com_img):
+            with cols[i % 3]:
+                img_path = get_image(m["id"])
+                st.image(str(img_path), use_container_width=True)
+                checked = st.checkbox(
+                    m["id"], key=f"sel_{m['id']}",
+                    label_visibility="visible"
+                )
+                st.caption(f"{m.get('meme_texto','')[:60]}…")
+
+        st.divider()
+
+        # Botão de download ZIP
+        selecionados = [m["id"] for m in com_img if st.session_state.get(f"sel_{m['id']}")]
+        if selecionados:
+            zip_buf = io.BytesIO()
+            with zipfile.ZipFile(zip_buf, "w", zipfile.ZIP_DEFLATED) as zf:
+                for mid in selecionados:
+                    p = get_image(mid)
+                    if p:
+                        zf.write(str(p), arcname=Path(p).name)
+            zip_buf.seek(0)
+            st.download_button(
+                label=f"📥 Baixar selecionadas ({len(selecionados)}) (ZIP)",
+                data=zip_buf,
+                file_name="memes_selecionados.zip",
+                mime="application/zip",
+                type="primary",
+            )
+        else:
+            st.button("📥 Baixar selecionadas (ZIP)", disabled=True, use_container_width=False)
+    else:
+        st.info("Nenhum meme com imagem ainda. Use o pipeline para buscar imagens.")
+
+    # Seção memes sem imagem
+    if sem_img:
+        st.divider()
+        st.subheader(f"Sem imagem ({len(sem_img)})")
+        for m in sem_img:
+            st.caption(f"`{m['id']}` — {m.get('meme_texto','')[:80]}")

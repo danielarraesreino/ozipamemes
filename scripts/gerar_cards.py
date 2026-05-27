@@ -33,7 +33,11 @@ def meme_para_dilema(m, idx):
         "modulo": m["modulo"],
         "meme": m["meme"],
         "contexto_oculto": m["contexto_oculto"],
-        "fonte": m["verificacao"]["fonte"]
+        "pilula_sabedoria": m.get("pilula_sabedoria", ""),
+        "fonte": m["verificacao"]["fonte"],
+        "verificacao_status": m["verificacao"]["status"],
+        "dificuldade": m.get("dificuldade", 2),
+        "impacto_real": m.get("impacto_real", ""),
     }
 
 
@@ -48,7 +52,11 @@ def gerar_typescript(dilemas):
         "  modulo: string",
         "  meme: string",
         "  contexto_oculto: string",
+        "  pilula_sabedoria: string",
         "  fonte: string",
+        "  verificacao_status: string",
+        "  dificuldade: number",
+        "  impacto_real?: string",
         "}",
         "",
         "export const dilemas: Dilema[] = ["
@@ -61,7 +69,13 @@ def gerar_typescript(dilemas):
         linhas.append(f'    meme: {json.dumps(d["meme"], ensure_ascii=False)},')
         linhas.append(f'    contexto_oculto:')
         linhas.append(f'      {json.dumps(d["contexto_oculto"], ensure_ascii=False)},')
+        linhas.append(f'    pilula_sabedoria:')
+        linhas.append(f'      {json.dumps(d["pilula_sabedoria"], ensure_ascii=False)},')
         linhas.append(f'    fonte: {json.dumps(d["fonte"], ensure_ascii=False)},')
+        linhas.append(f'    verificacao_status: "{d["verificacao_status"]}",')
+        linhas.append(f'    dificuldade: {d["dificuldade"]},')
+        if d.get("impacto_real"):
+            linhas.append(f'    impacto_real: {json.dumps(d["impacto_real"], ensure_ascii=False)},')
         linhas.append("  },")
 
     linhas.append("]")
