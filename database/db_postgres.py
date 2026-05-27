@@ -311,6 +311,13 @@ class DatabaseManager:
             )
         self.conn.commit()
 
+    def get_approved_meme_ids(self) -> set:
+        with self._cur() as cur:
+            cur.execute(
+                "SELECT meme_id FROM pipeline_queue WHERE estado = 'approved' AND meme_id IS NOT NULL"
+            )
+            return {r["meme_id"] for r in cur.fetchall()}
+
     def reset_failed(self) -> int:
         with self._cur() as cur:
             cur.execute(

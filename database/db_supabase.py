@@ -231,6 +231,14 @@ class DatabaseManager:
     def link_queue_to_meme(self, queue_id: int, meme_id: str) -> None:
         self.sb.from_("pipeline_queue").update({"meme_id": meme_id}).eq("id", queue_id).execute()
 
+    def get_approved_meme_ids(self) -> set:
+        r = (self.sb.from_("pipeline_queue")
+             .select("meme_id")
+             .eq("estado", "approved")
+             .not_.is_("meme_id", "null")
+             .execute())
+        return {row["meme_id"] for row in (r.data or [])}
+
     def reset_failed(self) -> int:
         rows = (self.sb.from_("pipeline_queue")
                 .select("id")

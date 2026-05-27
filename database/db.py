@@ -330,6 +330,12 @@ class DatabaseManager:
         ).fetchall()
         return {r["estado"]: r["n"] for r in rows}
 
+    def get_approved_meme_ids(self) -> set:
+        rows = self.conn.execute(
+            "SELECT meme_id FROM pipeline_queue WHERE estado = 'approved' AND meme_id IS NOT NULL"
+        ).fetchall()
+        return {r[0] for r in rows}
+
     def reset_failed(self) -> int:
         self.conn.execute(
             """UPDATE pipeline_queue

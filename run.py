@@ -140,11 +140,7 @@ def _cmd_gerar_cards(db: DatabaseManager, config) -> int:
     """Exporta memes aprovados para dilemas.ts do jogo."""
     memes = db.list_memes(usado_no_jogo=False)
     # Busca aprovados sem filtrar tentativas (itens que passaram por retry também são válidos)
-    aprovados_ids = {
-        row[0] for row in db.conn.execute(
-            "SELECT meme_id FROM pipeline_queue WHERE estado = 'approved' AND meme_id IS NOT NULL"
-        ).fetchall()
-    }
+    aprovados_ids = db.get_approved_meme_ids()
     para_exportar = [m for m in memes if m["id"] in aprovados_ids]
 
     if not para_exportar:
