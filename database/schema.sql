@@ -58,6 +58,9 @@ CREATE TABLE IF NOT EXISTS conteudo_gerado (
     meme_id          TEXT NOT NULL REFERENCES memes(id),
     contexto_oculto  TEXT NOT NULL,
     pilula_sabedoria TEXT NOT NULL,
+    objetivo_meme    TEXT,            -- o que o meme quer que você acredite + quem ganha
+    pilula_alt1      TEXT,            -- alternativa 1 da pílula (ângulo distinto) p/ vídeo
+    pilula_alt2      TEXT,            -- alternativa 2 da pílula (ângulo distinto) p/ vídeo
     roteiro_tiktok   TEXT,
     modelo_claude    TEXT NOT NULL,
     prompt_version   TEXT NOT NULL,

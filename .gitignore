@@ -19,3 +19,7 @@ output/cards/
 output/tiktok/
 output/dilemas/
 .streamlit/secrets.toml
+.swarm/
+database/videos/
+*.mp4
+*.pdf

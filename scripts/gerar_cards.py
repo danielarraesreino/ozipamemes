@@ -15,6 +15,9 @@ import sys
 import os
 import argparse
 
+sys.path.insert(0, os.path.join(os.path.dirname(__file__), ".."))
+from skills.video_fetcher import web_url_for
+
 DB_PATH = os.path.join(os.path.dirname(__file__), "../database/memes.json")
 OUTPUT_TS = os.path.join(os.path.dirname(__file__), "../output/dilemas/dilemas_gerados.ts")
 OUTPUT_JSON = os.path.join(os.path.dirname(__file__), "../output/dilemas/dilemas_gerados.json")
@@ -38,7 +41,8 @@ def meme_para_dilema(m, idx):
         "verificacao_status": m["verificacao"]["status"],
         "dificuldade": m.get("dificuldade", 2),
         "impacto_real": m.get("impacto_real", ""),
-        "video_url": m.get("video_url", ""),
+        # video_url explícito do meme tem prioridade; senão usa o banco de vídeos local.
+        "video_url": m.get("video_url") or web_url_for(m["id"]),
     }
 
 

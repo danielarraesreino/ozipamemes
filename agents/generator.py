@@ -19,7 +19,7 @@ from skills.base_skill import DataPoint
 
 logger = logging.getLogger(__name__)
 
-PROMPT_VERSION = "v2_oziel_2026"
+PROMPT_VERSION = "v3_oziel_2026"
 
 SYSTEM_GENERATOR = """Você é um especialista em comunicação periférica para o projeto Cidadania Conectada: Vozes do Oziel.
 Cria conteúdo educativo para adolescentes de 12-17 anos do Jardim Oziel, Campinas-SP.
@@ -44,8 +44,17 @@ REGRAS ABSOLUTAS — violação invalida o conteúdo:
 4. pilula_sabedoria: fala COM o jovem, não PARA ele. Empoderamento, não julgamento.
 5. Sem menção a partidos políticos específicos. Foco em estruturas, mecanismos e consequências reais.
 6. Se não houver número verificável, use narrativa qualitativa com personagem — nunca invente cifras.
+7. objetivo_meme: 1-2 frases diretas — o que o meme quer que o jovem acredite E quem ganha quando ele acredita nisso.
+8. As DUAS alternativas da pílula seguem TODAS as regras acima (mesmos dados, linguagem do bairro). São versões para a equipe escolher no vídeo da campanha:
+   - pilula_alternativa_1: ângulo EMOCIONAL/PESSOAL (fala do sentimento, do cotidiano, de quem é do bairro).
+   - pilula_alternativa_2: ângulo FACTUAL/CHAMADA-PRA-AÇÃO (aponta o dado e convida a fazer algo concreto).
+   As alternativas dizem a MESMA ideia da pílula principal, mudando só a abordagem.
 
 Responda EXCLUSIVAMENTE no formato XML abaixo, sem texto fora das tags:
+
+<objetivo_meme>
+[1-2 frases: o que o meme quer que o jovem acredite + quem se beneficia quando ele acredita]
+</objetivo_meme>
 
 <contexto_oculto>
 [O dado que o meme esconde: personagem concreto + o que a narrativa rasa oculta + consequência real no bairro]
@@ -54,6 +63,14 @@ Responda EXCLUSIVAMENTE no formato XML abaixo, sem texto fora das tags:
 <pilula_sabedoria>
 [1 frase curta — o empoderamento que nasce ao ver o dado oculto]
 </pilula_sabedoria>
+
+<pilula_alternativa_1>
+[Mesma ideia, ângulo emocional/pessoal — para o vídeo da campanha]
+</pilula_alternativa_1>
+
+<pilula_alternativa_2>
+[Mesma ideia, ângulo factual/chamada-pra-ação — para o vídeo da campanha]
+</pilula_alternativa_2>
 
 <roteiro_tiktok_cena3>
 [A revelação do dado oculto em 3-4 linhas, linguagem direta, sem sermão]
@@ -111,8 +128,11 @@ class ContentGenerator(BaseAgent):
 
         # Fallback: retorna estrutura vazia para não quebrar o pipeline
         return {
+            "objetivo_meme": "",
             "contexto_oculto": "",
             "pilula_sabedoria": "",
+            "pilula_alt1": "",
+            "pilula_alt2": "",
             "roteiro_tiktok": "",
             "modelo_claude": self.model,
             "prompt_version": PROMPT_VERSION,
@@ -179,8 +199,11 @@ class ContentGenerator(BaseAgent):
             return m.group(1).strip() if m else ""
 
         return {
+            "objetivo_meme": extract("objetivo_meme"),
             "contexto_oculto": extract("contexto_oculto"),
             "pilula_sabedoria": extract("pilula_sabedoria"),
+            "pilula_alt1": extract("pilula_alternativa_1"),
+            "pilula_alt2": extract("pilula_alternativa_2"),
             "roteiro_tiktok": extract("roteiro_tiktok_cena3"),
         }
 

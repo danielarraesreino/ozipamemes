@@ -40,6 +40,18 @@ class DatabaseManager:
         schema = SCHEMA_PATH.read_text()
         self.conn.executescript(schema)
         self.conn.commit()
+        self._migrate()
+
+    def _migrate(self) -> None:
+        """Adiciona colunas novas em bancos locais já existentes (idempotente)."""
+        cols = {
+            r["name"]
+            for r in self.conn.execute("PRAGMA table_info(conteudo_gerado)").fetchall()
+        }
+        for col in ("objetivo_meme", "pilula_alt1", "pilula_alt2"):
+            if col not in cols:
+                self.conn.execute(f"ALTER TABLE conteudo_gerado ADD COLUMN {col} TEXT")
+        self.conn.commit()
 
     def close(self) -> None:
         if self._conn:
@@ -205,13 +217,17 @@ class DatabaseManager:
         )
         cur = self.conn.execute(
             """INSERT INTO conteudo_gerado
-               (meme_id, contexto_oculto, pilula_sabedoria, roteiro_tiktok,
+               (meme_id, contexto_oculto, pilula_sabedoria, objetivo_meme,
+                pilula_alt1, pilula_alt2, roteiro_tiktok,
                 modelo_claude, prompt_version, tokens_input, tokens_output, is_current)
-               VALUES (?,?,?,?,?,?,?,?,1)""",
+               VALUES (?,?,?,?,?,?,?,?,?,?,?,1)""",
             (
                 meme_id,
                 conteudo["contexto_oculto"],
                 conteudo["pilula_sabedoria"],
+                conteudo.get("objetivo_meme"),
+                conteudo.get("pilula_alt1"),
+                conteudo.get("pilula_alt2"),
                 conteudo.get("roteiro_tiktok"),
                 conteudo["modelo_claude"],
                 conteudo["prompt_version"],

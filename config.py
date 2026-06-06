@@ -116,6 +116,26 @@ class Config:
                     "url": "https://www.e-farsas.com/feed",
                     "agencia": "efarsas",
                 },
+                {
+                    "nome": "G1 Fato ou Fake",
+                    "url": "https://g1.globo.com/rss/g1/fato-ou-fake/",
+                    "agencia": "g1",
+                },
+                {
+                    "nome": "Projeto Comprova",
+                    "url": "https://projetocomprova.com.br/feed/",
+                    "agencia": "comprova",
+                },
+                {
+                    "nome": "Estadão Verifica",
+                    "url": "https://www.estadao.com.br/arc/outboundfeeds/feeds/rss/sections/estadao-verifica/?outputType=xml",
+                    "agencia": "estadao",
+                },
+                {
+                    "nome": "Agência Pública (Truco)",
+                    "url": "https://apublica.org/tag/truco/feed/",
+                    "agencia": "publica",
+                },
             ]
 
         if not self.tag_to_skills:
@@ -123,8 +143,9 @@ class Config:
                 "eleicao": ["tse_data", "ibge_demografico"],
                 "eleição": ["tse_data", "ibge_demografico"],
                 "voto": ["tse_data"],
-                "vereador": ["tse_data"],
-                "câmara": ["tse_data"],
+                "vereador": ["tse_data", "camara_campinas"],
+                "câmara": ["tse_data", "camara_campinas"],
+                "camara": ["tse_data", "camara_campinas"],
                 "saúde": ["ibge_demografico", "datasus"],
                 "sus": ["ibge_demografico"],
                 "vacina": ["datasus"],
@@ -146,10 +167,17 @@ class Config:
                 "habitação": ["ibge_demografico", "seade"],
                 "renda": ["ibge_demografico"],
                 "desemprego": ["ibge_demografico", "seade"],
-                "participacao": ["tse_data"],
-                "participação": ["tse_data"],
+                "participacao": ["tse_data", "camara_campinas"],
+                "participação": ["tse_data", "camara_campinas"],
                 "terra": ["ibge_demografico"],
                 "reforma agrária": ["ibge_demografico"],
+                # Âncora local — demandas reais do bairro na Câmara de Campinas
+                "territorio": ["camara_campinas"],
+                "território": ["camara_campinas"],
+                "oziel": ["camara_campinas"],
+                "bairro": ["camara_campinas"],
+                "promessa": ["camara_campinas"],
+                "campinas": ["camara_campinas"],
             }
 
 

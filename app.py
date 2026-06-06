@@ -74,15 +74,35 @@ def refresh():
 # ── Imagens ───────────────────────────────────────────────────────────────────
 
 from skills.image_fetcher import image_path_for, fetch_and_save, save_upload, fetch_all
+from skills.video_fetcher import (
+    video_path_for,
+    save_upload as save_video_upload,
+    delete as delete_video,
+)
+from skills.video_gen import gerar_video
 
 def get_image(meme_id):
     return image_path_for(meme_id)
+
+def get_video(meme_id):
+    return video_path_for(meme_id)
 
 def show_image(meme_id, width=300):
     p = get_image(meme_id)
     if p:
         st.image(str(p), width=width)
     return p
+
+def zip_images(meme_ids):
+    """Monta um ZIP em memória com as imagens dos ids informados."""
+    buf = io.BytesIO()
+    with zipfile.ZipFile(buf, "w", zipfile.ZIP_DEFLATED) as zf:
+        for mid in meme_ids:
+            p = get_image(mid)
+            if p:
+                zf.write(str(p), arcname=Path(p).name)
+    buf.seek(0)
+    return buf
 
 # ── Constantes visuais ────────────────────────────────────────────────────────
 
@@ -226,8 +246,9 @@ elif pagina == "📋 Memes":
         emoji = STATUS_EMOJI.get(status, "•")
         conteudo = load_conteudo(m["id"])
         tem_img = "🖼️ " if get_image(m["id"]) else ""
+        tem_video = "🎬 " if get_video(m["id"]) else ""
 
-        with st.expander(f"{tem_img}{emoji}  {m.get('meme_texto','')[:75]}"):
+        with st.expander(f"{tem_video}{tem_img}{emoji}  {m.get('meme_texto','')[:75]}"):
             col_img, col_info = st.columns([1, 2])
 
             # ── Coluna imagem ─────────────────────────────────────────────
@@ -260,6 +281,49 @@ elif pagina == "📋 Memes":
                     st.success("Imagem salva!")
                     st.cache_data.clear()
                     st.rerun()
+
+                # ── Vídeo da pílula/campanha ──────────────────────────
+                st.divider()
+                vid = get_video(m["id"])
+                if vid:
+                    st.video(str(vid))
+                    if st.button("🗑️ Remover vídeo", key=f"delvid_{m['id']}"):
+                        delete_video(m["id"])
+                        st.cache_data.clear()
+                        st.rerun()
+                else:
+                    st.caption("🎬 Sem vídeo")
+                vid_upload = st.file_uploader(
+                    "🎬 Upload vídeo da pílula", type=["mp4", "webm", "mov", "m4v"],
+                    key=f"vidup_{m['id']}", label_visibility="collapsed"
+                )
+                if vid_upload:
+                    save_video_upload(m["id"], vid_upload.read(), vid_upload.name)
+                    st.success("Vídeo salvo!")
+                    st.cache_data.clear()
+                    st.rerun()
+
+                # ── Gerar pílula em vídeo com IA (TTS + imagem do meme) ──
+                opcoes_pilula = {
+                    "Pílula de sabedoria": (conteudo or {}).get("pilula_sabedoria"),
+                    "Alt 1 (emocional)": (conteudo or {}).get("pilula_alt1"),
+                    "Alt 2 (chamada pra ação)": (conteudo or {}).get("pilula_alt2"),
+                }
+                opcoes_pilula = {k: v for k, v in opcoes_pilula.items() if v}
+                if opcoes_pilula:
+                    escolha = st.selectbox(
+                        "Texto pra narrar", list(opcoes_pilula),
+                        key=f"vidtxt_{m['id']}", label_visibility="collapsed",
+                    )
+                    if st.button("🎬 Gerar pílula em vídeo (IA)", key=f"vidgen_{m['id']}"):
+                        with st.spinner("Narrando e montando o vídeo…"):
+                            try:
+                                gerar_video(m["id"], opcoes_pilula[escolha])
+                                st.success("Vídeo gerado!")
+                                st.cache_data.clear()
+                                st.rerun()
+                            except Exception as e:
+                                st.error(f"Falhou: {e}")
 
             # ── Coluna informações ────────────────────────────────────────
             with col_info:
@@ -340,10 +404,24 @@ elif pagina == "📋 Memes":
                 with tabs[1]:
                     # Aba Freakonomics — dado oculto
                     if conteudo:
+                        if conteudo.get("objetivo_meme"):
+                            st.markdown("#### 🎭 Objetivo do meme")
+                            st.warning(conteudo["objetivo_meme"])
                         st.markdown("#### 🎯 O que este meme esconde")
                         st.info(conteudo.get("contexto_oculto","—"))
                         st.markdown("#### 💡 Pílula de sabedoria")
                         st.success(conteudo.get("pilula_sabedoria","—"))
+                        # Alternativas pro vídeo da campanha
+                        _alt1 = conteudo.get("pilula_alt1")
+                        _alt2 = conteudo.get("pilula_alt2")
+                        if _alt1 or _alt2:
+                            st.markdown("#### 🎬 Alternativas pro vídeo da campanha")
+                            if _alt1:
+                                st.caption("Ângulo emocional/pessoal")
+                                st.success(_alt1)
+                            if _alt2:
+                                st.caption("Ângulo factual/chamada-pra-ação")
+                                st.success(_alt2)
                         if conteudo.get("roteiro_tiktok"):
                             st.markdown("#### 📱 Roteiro TikTok — Cena 3 (a revelação)")
                             st.text_area(
@@ -529,6 +607,15 @@ elif pagina == "🖼️ Galeria":
     sem_img = [m for m in memes if not get_image(m["id"])]
 
     st.metric("Memes com imagem", f"{len(com_img)} de {len(memes)}")
+
+    # Download de todas de uma vez
+    if com_img:
+        st.download_button(
+            label=f"📦 Baixar todas ({len(com_img)}) (ZIP)",
+            data=zip_images([m["id"] for m in com_img]),
+            file_name="memes_todos.zip",
+            mime="application/zip",
+        )
     st.divider()
 
     # Grid de memes com imagem
@@ -542,23 +629,25 @@ elif pagina == "🖼️ Galeria":
                     m["id"], key=f"sel_{m['id']}",
                     label_visibility="visible"
                 )
+                # Download individual da imagem
+                st.download_button(
+                    "⬇️ Baixar",
+                    data=Path(img_path).read_bytes(),
+                    file_name=Path(img_path).name,
+                    mime=f"image/{Path(img_path).suffix.lstrip('.').lower() or 'jpeg'}",
+                    key=f"dl_img_{m['id']}",
+                    use_container_width=True,
+                )
                 st.caption(f"{m.get('meme_texto','')[:60]}…")
 
         st.divider()
 
-        # Botão de download ZIP
+        # Botão de download ZIP das selecionadas
         selecionados = [m["id"] for m in com_img if st.session_state.get(f"sel_{m['id']}")]
         if selecionados:
-            zip_buf = io.BytesIO()
-            with zipfile.ZipFile(zip_buf, "w", zipfile.ZIP_DEFLATED) as zf:
-                for mid in selecionados:
-                    p = get_image(mid)
-                    if p:
-                        zf.write(str(p), arcname=Path(p).name)
-            zip_buf.seek(0)
             st.download_button(
                 label=f"📥 Baixar selecionadas ({len(selecionados)}) (ZIP)",
-                data=zip_buf,
+                data=zip_images(selecionados),
                 file_name="memes_selecionados.zip",
                 mime="application/zip",
                 type="primary",

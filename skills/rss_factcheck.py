@@ -115,6 +115,10 @@ class RSSFactCheckSkill:
             {"nome": "Aos Fatos", "url": "https://aosfatos.org/feed/", "agencia": "aosfatos"},
             {"nome": "Boatos.org", "url": "https://www.boatos.org/feed", "agencia": "boatos"},
             {"nome": "E-Farsas", "url": "https://www.e-farsas.com/feed", "agencia": "efarsas"},
+            {"nome": "G1 Fato ou Fake", "url": "https://g1.globo.com/rss/g1/fato-ou-fake/", "agencia": "g1"},
+            {"nome": "Projeto Comprova", "url": "https://projetocomprova.com.br/feed/", "agencia": "comprova"},
+            {"nome": "Estadão Verifica", "url": "https://www.estadao.com.br/arc/outboundfeeds/feeds/rss/sections/estadao-verifica/?outputType=xml", "agencia": "estadao"},
+            {"nome": "Agência Pública (Truco)", "url": "https://apublica.org/tag/truco/feed/", "agencia": "publica"},
         ]
         self.lookback_hours = lookback_hours
         self.min_score = min_score
@@ -157,6 +161,9 @@ class RSSFactCheckSkill:
             score, status = self._classify(texto_completo, source["agencia"])
             if score < self.min_score:
                 continue
+
+            # Convenção determinística no título tem prioridade sobre a heurística
+            status = self._status_por_convencao(titulo) or status
 
             meme_texto = self._extrair_meme(titulo, resumo)
             if not meme_texto or len(meme_texto) < 15:
@@ -234,13 +241,23 @@ class RSSFactCheckSkill:
         score += min(politico_encontrado * 0.1, 0.3)
 
         # Bonus: veio de fact-checker (já é verificado)
-        if agencia in ("lupa", "aosfatos", "boatos", "efarsas"):
+        if agencia in ("lupa", "aosfatos", "boatos", "efarsas", "g1", "comprova", "estadao", "publica"):
             score += 0.25
 
         # Detecta status de verificação
         status = self._detectar_status(texto)
 
         return min(score, 1.0), status
+
+    def _status_por_convencao(self, titulo: str) -> str:
+        """Status a partir de convenções determinísticas no título do fact-checker.
+        G1 Fato ou Fake marca '#FAKE' (falso) ou '#FATO' (verdadeiro) no título."""
+        t = titulo.lower()
+        if "#fato" in t:
+            return "verdadeiro"
+        if "#fake" in t:
+            return "falso"
+        return ""
 
     def _detectar_status(self, texto: str) -> str:
         texto_lower = texto.lower()

@@ -39,7 +39,7 @@ class FactCheckAgent(BaseAgent):
         Retorna dict com status, fonte, fonte_url, explicacao, agencia.
         """
         # Candidatos vindos de agências confiáveis: extrai diretamente
-        if candidate.agencia in ("lupa", "aosfatos", "boatos", "efarsas"):
+        if candidate.agencia in ("lupa", "aosfatos", "boatos", "efarsas", "g1", "comprova", "estadao", "publica"):
             result = self._extrair_de_rss(candidate)
             if result["status"]:
                 return result
@@ -123,5 +123,9 @@ def _nome_agencia(agencia_id: str) -> str:
         "aosfatos": "Aos Fatos",
         "boatos": "Boatos.org",
         "efarsas": "E-Farsas",
+        "g1": "G1 Fato ou Fake",
+        "comprova": "Projeto Comprova",
+        "estadao": "Estadão Verifica",
+        "publica": "Agência Pública (Truco)",
     }
     return nomes.get(agencia_id, agencia_id)
