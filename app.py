@@ -7,6 +7,7 @@ from __future__ import annotations
 import io
 import json
 import os
+import shutil
 import subprocess
 import sys
 import zipfile
@@ -79,6 +80,7 @@ from skills.video_fetcher import (
     video_path_for,
     save_upload as save_video_upload,
     delete as delete_video,
+    list_all as list_all_videos,
 )
 from skills.video_gen import gerar_video
 
@@ -87,6 +89,10 @@ def get_image(meme_id):
 
 def get_video(meme_id):
     return video_path_for(meme_id)
+
+def _estilo_auto():
+    """Escolhe o estilo do vídeo sozinho: B-roll do Pexels se houver chave, senão imagem."""
+    return "broll" if os.environ.get("PEXELS_API_KEY") else "imagem"
 
 def show_image(meme_id, width=300):
     p = get_image(meme_id)
@@ -121,7 +127,7 @@ with st.sidebar:
     st.divider()
 
     pagina = st.radio(
-        "nav", ["📊 Dashboard", "📋 Memes", "🔄 Fila", "⚙️ Pipeline", "🖼️ Galeria"],
+        "nav", ["📊 Dashboard", "📋 Memes", "🔄 Fila", "⚙️ Pipeline", "🖼️ Galeria", "🎬 Vídeos"],
         label_visibility="collapsed",
     )
     st.divider()
@@ -304,37 +310,17 @@ elif pagina == "📋 Memes":
                     st.cache_data.clear()
                     st.rerun()
 
-                # ── Gerar pílula em vídeo com IA (TTS + imagem do meme) ──
-                opcoes_pilula = {
-                    "Pílula de sabedoria": (conteudo or {}).get("pilula_sabedoria"),
-                    "Alt 1 (emocional)": (conteudo or {}).get("pilula_alt1"),
-                    "Alt 2 (chamada pra ação)": (conteudo or {}).get("pilula_alt2"),
-                }
-                opcoes_pilula = {k: v for k, v in opcoes_pilula.items() if v}
-                if opcoes_pilula:
-                    escolha = st.selectbox(
-                        "Texto pra narrar", list(opcoes_pilula),
-                        key=f"vidtxt_{m['id']}", label_visibility="collapsed",
-                    )
-                    tem_pexels = bool(os.environ.get("PEXELS_API_KEY"))
-                    estilos = {"🖼️ Imagem do meme": "imagem"}
-                    if tem_pexels:
-                        estilos["🎞️ B-roll (Pexels + legendas)"] = "broll"
-                    estilo_label = st.radio(
-                        "Estilo", list(estilos), key=f"vidstyle_{m['id']}", horizontal=True,
-                    )
-                    if st.button("🎬 Gerar pílula em vídeo (IA)", key=f"vidgen_{m['id']}"):
-                        with st.spinner("Narrando e montando o vídeo…"):
-                            try:
-                                gerar_video(
-                                    m["id"], opcoes_pilula[escolha],
-                                    estilo=estilos[estilo_label],
-                                )
-                                st.success("Vídeo gerado!")
-                                st.cache_data.clear()
-                                st.rerun()
-                            except Exception as e:
-                                st.error(f"Falhou: {e}")
+                # ── Gerar pílula em vídeo com IA (1 clique; estilo automático) ──
+                _pilula = (conteudo or {}).get("pilula_sabedoria")
+                if _pilula and st.button("🎬 Gerar vídeo da pílula (IA)", key=f"vidgen_{m['id']}"):
+                    with st.spinner("Narrando e montando o vídeo…"):
+                        try:
+                            gerar_video(m["id"], _pilula, estilo=_estilo_auto())
+                            st.success("Vídeo gerado!")
+                            st.cache_data.clear()
+                            st.rerun()
+                        except Exception as e:
+                            st.error(f"Falhou: {e}")
 
             # ── Coluna informações ────────────────────────────────────────
             with col_info:
@@ -674,3 +660,94 @@ elif pagina == "🖼️ Galeria":
         st.subheader(f"Sem imagem ({len(sem_img)})")
         for m in sem_img:
             st.caption(f"`{m['id']}` — {m.get('meme_texto','')[:80]}")
+
+# ═════════════════════════════════════════════════════════════════════════════
+# VÍDEOS DAS PÍLULAS — fluxo simples de 3 passos
+# ═════════════════════════════════════════════════════════════════════════════
+elif pagina == "🎬 Vídeos":
+    st.title("🎬 Vídeos das pílulas")
+    st.caption("Gere os vídeos e mande pro jogo — em 3 passos, sem configurar nada.")
+
+    JOGO_VIDEOS = Path("/home/dan/Área de Trabalho/jogo_ozipa/public/videos")
+
+    memes = load_memes()
+
+    def _tem_pilula(mid):
+        c = load_conteudo(mid)
+        return bool(c and c.get("pilula_sabedoria"))
+
+    elegiveis = [m for m in memes if _tem_pilula(m["id"])]
+    com_video = [m for m in elegiveis if get_video(m["id"])]
+    faltando = [m for m in elegiveis if not get_video(m["id"])]
+
+    c1, c2, c3 = st.columns(3)
+    c1.metric("Com pílula", len(elegiveis))
+    c2.metric("Com vídeo", len(com_video))
+    c3.metric("Faltando", len(faltando))
+
+    estilo = _estilo_auto()
+    if estilo == "broll":
+        st.success("🎞️ Fundo dos vídeos: clipes do Pexels + legendas (chave configurada).")
+    else:
+        st.info("🖼️ Fundo dos vídeos: imagem do meme. (Pra usar vídeos de banco, ponha PEXELS_API_KEY no .env.)")
+
+    st.divider()
+    st.subheader("1) Gerar os vídeos que faltam")
+    if faltando:
+        if st.button(f"🎬 Gerar {len(faltando)} vídeo(s) agora", type="primary", use_container_width=True):
+            barra = st.progress(0.0, text="Começando…")
+            ok, falhas = 0, []
+            for i, m in enumerate(faltando, 1):
+                barra.progress((i - 1) / len(faltando), text=f"{i}/{len(faltando)} — {m['id']}")
+                try:
+                    gerar_video(m["id"], load_conteudo(m["id"])["pilula_sabedoria"], estilo=estilo)
+                    ok += 1
+                except Exception as e:
+                    falhas.append((m["id"], str(e)))
+            barra.progress(1.0, text="Pronto!")
+            st.cache_data.clear()
+            st.success(f"{ok} vídeo(s) gerado(s).")
+            for mid, err in falhas:
+                st.caption(f"⚠️ `{mid}` falhou — {err}")
+            st.rerun()
+    else:
+        st.success("Todos os memes com pílula já têm vídeo. ✅")
+
+    st.divider()
+    st.subheader("2) Mandar pro jogo")
+    st.caption(f"Copia os vídeos pra `{JOGO_VIDEOS}` e atualiza o `dilemas.ts` do jogo.")
+    if st.button("📤 Exportar vídeos + cards pro jogo", use_container_width=True):
+        videos = list_all_videos()
+        if not videos:
+            st.warning("Não há vídeos pra exportar ainda — faça o passo 1 primeiro.")
+        else:
+            JOGO_VIDEOS.mkdir(parents=True, exist_ok=True)
+            for _mid, p in videos.items():
+                shutil.copy2(p, JOGO_VIDEOS / p.name)
+            with st.spinner("Atualizando o dilemas.ts…"):
+                out = run_cmd(["--gerar-cards"])
+            st.success(f"{len(videos)} vídeo(s) copiado(s) pro jogo. dilemas.ts atualizado.")
+            st.text(out[-800:])
+
+    st.divider()
+    with st.expander("Rever ou refazer um vídeo específico"):
+        if not com_video:
+            st.caption("Nenhum vídeo gerado ainda.")
+        for m in com_video:
+            st.markdown(f"**`{m['id']}`** — {m.get('meme_texto','')[:60]}")
+            v = get_video(m["id"])
+            if v:
+                st.video(str(v))
+            cols = st.columns(2)
+            if cols[0].button("🔄 Refazer", key=f"refaz_{m['id']}"):
+                with st.spinner("Refazendo…"):
+                    try:
+                        gerar_video(m["id"], load_conteudo(m["id"])["pilula_sabedoria"], estilo=estilo)
+                        st.cache_data.clear()
+                        st.rerun()
+                    except Exception as e:
+                        st.error(f"Falhou: {e}")
+            if cols[1].button("🗑️ Remover", key=f"rem_{m['id']}"):
+                delete_video(m["id"])
+                st.cache_data.clear()
+                st.rerun()
