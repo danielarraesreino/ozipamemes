@@ -123,6 +123,58 @@ def test_tts_faz_retry_no_rate_limit(monkeypatch):
     assert chamadas["n"] == 3  # 2 falhas + 1 sucesso
 
 
+def _gera_clipe_teste(dest: Path, seg: float = 2.0) -> Path:
+    """Cria um MP4 curto com stream de vídeo (testsrc) pra fazer de B-roll."""
+    subprocess.run(
+        ["ffmpeg", "-y", "-f", "lavfi", "-i", f"testsrc=size=640x480:rate=30:duration={seg}",
+         "-pix_fmt", "yuv420p", str(dest)],
+        capture_output=True, check=True,
+    )
+    return dest
+
+
+def test_extrai_palavras_chave_sem_stopwords():
+    chaves = video_gen._extrair_palavras_chave(
+        "O meme quer que você acredite que a política não muda nada na sua vida"
+    )
+    assert "meme" in chaves
+    assert "que" not in chaves and "não" not in chaves
+
+
+def test_monta_srt_valido(tmp_path):
+    srt = video_gen._montar_srt("uma pílula curta pra molecada testar", 6.0, tmp_path / "s.srt")
+    txt = srt.read_text(encoding="utf-8")
+    assert "-->" in txt and "00:00:00,000" in txt
+
+
+def test_broll_end_to_end(videos_tmp, fala_mock, monkeypatch, tmp_path):
+    """Pexels e download mockados; ffmpeg (normalizar+concat+legenda) roda de verdade."""
+    fonte = _gera_clipe_teste(tmp_path / "fonte.mp4")
+    monkeypatch.setattr(video_gen, "_pexels_buscar_clipes",
+                        lambda query, api_key, n, locale="pt-BR": ["fake://1", "fake://2"])
+    monkeypatch.setattr(video_gen, "_baixar", lambda url, dest: shutil.copy(fonte, dest) or dest)
+
+    dest = video_gen.gerar_video(
+        "m010", "Pílula com fundo de vídeo e legenda.",
+        api_key="fake", estilo="broll", pexels_key="x",
+    )
+    assert dest.exists() and dest.stat().st_size > 0
+    probe = subprocess.run(
+        ["ffprobe", "-v", "error", "-select_streams", "a", "-show_entries",
+         "stream=codec_type", "-of", "csv=p=0", str(dest)],
+        capture_output=True, text=True,
+    )
+    assert "audio" in probe.stdout  # narração foi muxada
+
+
+def test_broll_sem_chave_cai_pra_imagem(videos_tmp, fala_mock):
+    """estilo='broll' sem PEXELS_API_KEY não falha — usa o modo imagem (fallback)."""
+    dest = video_gen.gerar_video(
+        "m011", "Sem chave.", api_key="fake", estilo="broll", pexels_key="", imagem=None,
+    )
+    assert dest.exists()
+
+
 def test_tts_desiste_apos_retries(monkeypatch):
     from google.api_core import exceptions as gexc
 

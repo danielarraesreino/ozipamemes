@@ -6,6 +6,7 @@ from __future__ import annotations
 
 import io
 import json
+import os
 import subprocess
 import sys
 import zipfile
@@ -315,10 +316,20 @@ elif pagina == "📋 Memes":
                         "Texto pra narrar", list(opcoes_pilula),
                         key=f"vidtxt_{m['id']}", label_visibility="collapsed",
                     )
+                    tem_pexels = bool(os.environ.get("PEXELS_API_KEY"))
+                    estilos = {"🖼️ Imagem do meme": "imagem"}
+                    if tem_pexels:
+                        estilos["🎞️ B-roll (Pexels + legendas)"] = "broll"
+                    estilo_label = st.radio(
+                        "Estilo", list(estilos), key=f"vidstyle_{m['id']}", horizontal=True,
+                    )
                     if st.button("🎬 Gerar pílula em vídeo (IA)", key=f"vidgen_{m['id']}"):
                         with st.spinner("Narrando e montando o vídeo…"):
                             try:
-                                gerar_video(m["id"], opcoes_pilula[escolha])
+                                gerar_video(
+                                    m["id"], opcoes_pilula[escolha],
+                                    estilo=estilos[estilo_label],
+                                )
                                 st.success("Vídeo gerado!")
                                 st.cache_data.clear()
                                 st.rerun()
