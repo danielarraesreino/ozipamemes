@@ -98,3 +98,41 @@ def test_sem_overwrite_recusa(videos_tmp, fala_mock):
     (videos_tmp / "m005.mp4").write_bytes(b"existe")
     with pytest.raises(FileExistsError):
         video_gen.gerar_video("m005", "X.", api_key="fake", overwrite=False)
+
+
+def test_tts_faz_retry_no_rate_limit(monkeypatch):
+    """O TTS deve esperar e tentar de novo no 429 do free tier, não falhar seco."""
+    from types import SimpleNamespace
+    from google.api_core import exceptions as gexc
+
+    chamadas = {"n": 0}
+
+    def fake_generate(**kwargs):
+        chamadas["n"] += 1
+        if chamadas["n"] < 3:
+            raise gexc.ResourceExhausted("429 free tier")
+        parte = SimpleNamespace(inline_data=SimpleNamespace(data=b"PCMOK"))
+        cand = SimpleNamespace(content=SimpleNamespace(parts=[parte]))
+        return SimpleNamespace(candidates=[cand])
+
+    fake_client = SimpleNamespace(models=SimpleNamespace(generate_content=fake_generate))
+    monkeypatch.setattr(video_gen.genai, "Client", lambda api_key: fake_client)
+    monkeypatch.setattr(video_gen.time, "sleep", lambda s: None)  # não trava o teste
+
+    assert video_gen._sintetizar_fala("oi", "fake") == b"PCMOK"
+    assert chamadas["n"] == 3  # 2 falhas + 1 sucesso
+
+
+def test_tts_desiste_apos_retries(monkeypatch):
+    from google.api_core import exceptions as gexc
+
+    def sempre_429(**kwargs):
+        raise gexc.ResourceExhausted("429")
+
+    from types import SimpleNamespace
+    fake_client = SimpleNamespace(models=SimpleNamespace(generate_content=sempre_429))
+    monkeypatch.setattr(video_gen.genai, "Client", lambda api_key: fake_client)
+    monkeypatch.setattr(video_gen.time, "sleep", lambda s: None)
+
+    with pytest.raises(RuntimeError, match="rate limit"):
+        video_gen._sintetizar_fala("oi", "fake", retries=2)

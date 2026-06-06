@@ -21,11 +21,13 @@ from __future__ import annotations
 import logging
 import subprocess
 import tempfile
+import time
 import wave
 from pathlib import Path
 
 from google import genai
 from google.genai import types
+from google.api_core import exceptions as google_exceptions
 
 from skills.video_fetcher import VIDEOS_DIR, delete as _delete_video
 
@@ -53,22 +55,40 @@ ESTILO_LOCUCAO = (
 )
 
 
-def _sintetizar_fala(texto: str, api_key: str, voz: str = VOZ_PADRAO) -> bytes:
-    """Chama o TTS do Gemini e devolve o áudio PCM cru (24kHz/mono/16-bit)."""
+def _sintetizar_fala(
+    texto: str, api_key: str, voz: str = VOZ_PADRAO, retries: int = 3
+) -> bytes:
+    """
+    Chama o TTS do Gemini e devolve o áudio PCM cru (24kHz/mono/16-bit).
+
+    Tem retry com backoff porque o TTS divide a cota do free tier (5 req/min) com
+    o pipeline — sem isso, gerar vídeos em sequência estouraria 429 e falharia seco.
+    """
     client = genai.Client(api_key=api_key)
-    resp = client.models.generate_content(
-        model=MODELO_TTS,
-        contents=ESTILO_LOCUCAO + texto,
-        config=types.GenerateContentConfig(
-            response_modalities=["AUDIO"],
-            speech_config=types.SpeechConfig(
-                voice_config=types.VoiceConfig(
-                    prebuilt_voice_config=types.PrebuiltVoiceConfig(voice_name=voz)
-                )
-            ),
+    config = types.GenerateContentConfig(
+        response_modalities=["AUDIO"],
+        speech_config=types.SpeechConfig(
+            voice_config=types.VoiceConfig(
+                prebuilt_voice_config=types.PrebuiltVoiceConfig(voice_name=voz)
+            )
         ),
     )
-    return resp.candidates[0].content.parts[0].inline_data.data
+    last_exc: Exception | None = None
+    for tentativa in range(retries):
+        try:
+            resp = client.models.generate_content(
+                model=MODELO_TTS, contents=ESTILO_LOCUCAO + texto, config=config,
+            )
+            return resp.candidates[0].content.parts[0].inline_data.data
+        except google_exceptions.ResourceExhausted as exc:
+            # Free tier: 5 req/min. Espera crescente antes de tentar de novo.
+            espera = min(15 * (tentativa + 1), 45)
+            logger.warning(f"TTS rate limit (429) — aguardando {espera}s e tentando de novo…")
+            time.sleep(espera)
+            last_exc = exc
+    raise RuntimeError(
+        f"TTS do Gemini falhou após {retries} tentativas (rate limit do free tier?): {last_exc}"
+    )
 
 
 def _pcm_para_wav(pcm: bytes, dest: Path) -> Path:
