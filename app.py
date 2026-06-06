@@ -715,19 +715,18 @@ elif pagina == "🎬 Vídeos":
 
     st.divider()
     st.subheader("2) Mandar pro jogo")
-    st.caption(f"Copia os vídeos pra `{JOGO_VIDEOS}` e atualiza o `dilemas.ts` do jogo.")
-    if st.button("📤 Exportar vídeos + cards pro jogo", use_container_width=True):
+    st.caption(f"Copia os vídeos pra `{JOGO_VIDEOS}` e grava os cards em `dilemas_importados.json` "
+               "(importação em runtime — depois é só ativar no admin do jogo).")
+    if st.button("📤 Exportar vídeos + cards pro jogo", use_container_width=True, type="primary"):
         videos = list_all_videos()
-        if not videos:
-            st.warning("Não há vídeos pra exportar ainda — faça o passo 1 primeiro.")
-        else:
-            JOGO_VIDEOS.mkdir(parents=True, exist_ok=True)
-            for _mid, p in videos.items():
-                shutil.copy2(p, JOGO_VIDEOS / p.name)
-            with st.spinner("Atualizando o dilemas.ts…"):
-                out = run_cmd(["--gerar-cards"])
-            st.success(f"{len(videos)} vídeo(s) copiado(s) pro jogo. dilemas.ts atualizado.")
-            st.text(out[-800:])
+        JOGO_VIDEOS.mkdir(parents=True, exist_ok=True)
+        for _mid, p in videos.items():
+            shutil.copy2(p, JOGO_VIDEOS / p.name)
+        with st.spinner("Gravando os cards…"):
+            from scripts.gerar_cards import exportar_importados, carregar
+            cards, dest = exportar_importados(carregar()["memes"])
+        st.success(f"{len(videos)} vídeo(s) copiado(s) · {len(cards)} card(s) exportado(s) pro jogo.")
+        st.caption(f"Cards em `{dest}` — abra o admin do jogo → aba 📥 Cards pra ativar/desativar.")
 
     st.divider()
     with st.expander("Rever ou refazer um vídeo específico"):

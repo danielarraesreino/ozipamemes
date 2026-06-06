@@ -23,6 +23,9 @@ OUTPUT_TS = os.path.join(os.path.dirname(__file__), "../output/dilemas/dilemas_g
 OUTPUT_JSON = os.path.join(os.path.dirname(__file__), "../output/dilemas/dilemas_gerados.json")
 
 JOGO_PATH = "/home/dan/Área de Trabalho/jogo_ozipa/src/lib/dilemas.ts"
+# Importação em runtime (sem rebuild): o jogo lê este JSON estático e o admin
+# liga/desliga cada card. É o caminho recomendado, não mexe nos dilemas hardcoded.
+JOGO_IMPORTADOS_JSON = "/home/dan/Área de Trabalho/jogo_ozipa/public/dilemas_importados.json"
 
 
 def carregar():
@@ -42,8 +45,30 @@ def meme_para_dilema(m, idx):
         "dificuldade": m.get("dificuldade", 2),
         "impacto_real": m.get("impacto_real", ""),
         # video_url explícito do meme tem prioridade; senão usa o banco de vídeos local.
+        # Atenção: video_url é o vídeo da PÍLULA (exibido após a escolha).
         "video_url": m.get("video_url") or web_url_for(m["id"]),
+        # Mídia do próprio meme, exibida NO card (opcional; quando o meme tiver).
+        "meme_imagem": m.get("meme_imagem", ""),
+        "meme_video": m.get("meme_video", ""),
     }
+
+
+def exportar_importados(memes, dest=JOGO_IMPORTADOS_JSON):
+    """Grava os cards novos como JSON estático lido pelo jogo em runtime.
+
+    Pega os memes ainda não usados no jogo (os 4 primeiros são hardcoded),
+    converte para dilemas (d05+) e escreve uma LISTA em dest. Campos de mídia
+    vazios são omitidos para manter o JSON enxuto.
+    """
+    selecionados = [m for m in memes if not m.get("usado_no_jogo")]
+    dilemas = [meme_para_dilema(m, i + 5) for i, m in enumerate(selecionados)]
+    enxutos = []
+    for d in dilemas:
+        enxutos.append({k: v for k, v in d.items() if v not in ("", None)})
+    os.makedirs(os.path.dirname(dest), exist_ok=True)
+    with open(dest, "w", encoding="utf-8") as f:
+        json.dump(enxutos, f, ensure_ascii=False, indent=2)
+    return enxutos, dest
 
 
 def gerar_typescript(dilemas):
@@ -96,10 +121,18 @@ def main():
     parser.add_argument("--ids", help="IDs específicos separados por vírgula (ex: m004,m012)")
     parser.add_argument("--preview", action="store_true", help="Apenas exibe, não grava")
     parser.add_argument("--copiar-para-jogo", action="store_true", help="Copia o arquivo para o projeto do jogo")
+    parser.add_argument("--exportar-jogo", action="store_true",
+                        help="Grava dilemas_importados.json no public/ do jogo (importação em runtime, recomendado)")
     args = parser.parse_args()
 
     db = carregar()
     memes = db["memes"]
+
+    # Caminho recomendado: importação em runtime, sem tocar nos dilemas hardcoded.
+    if args.exportar_jogo:
+        enxutos, dest = exportar_importados(memes)
+        print(f"✅ {len(enxutos)} card(s) exportado(s) para o jogo: {dest}")
+        return
 
     # Filtros
     if args.ids:
