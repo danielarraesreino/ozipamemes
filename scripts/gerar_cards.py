@@ -17,6 +17,7 @@ import argparse
 
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), ".."))
 from skills.video_fetcher import web_url_for
+from skills.meme_media import web_url_imagem, web_url_video
 
 DB_PATH = os.path.join(os.path.dirname(__file__), "../database/memes.json")
 OUTPUT_TS = os.path.join(os.path.dirname(__file__), "../output/dilemas/dilemas_gerados.ts")
@@ -47,9 +48,10 @@ def meme_para_dilema(m, idx):
         # video_url explícito do meme tem prioridade; senão usa o banco de vídeos local.
         # Atenção: video_url é o vídeo da PÍLULA (exibido após a escolha).
         "video_url": m.get("video_url") or web_url_for(m["id"]),
-        # Mídia do próprio meme, exibida NO card (opcional; quando o meme tiver).
-        "meme_imagem": m.get("meme_imagem", ""),
-        "meme_video": m.get("meme_video", ""),
+        # Mídia do próprio meme, exibida NO card. Campo explícito vence; senão usa
+        # a mídia gerada offline (skills/meme_media) se existir no banco.
+        "meme_imagem": m.get("meme_imagem") or web_url_imagem(m["id"]),
+        "meme_video": m.get("meme_video") or web_url_video(m["id"]),
     }
 
 

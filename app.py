@@ -83,6 +83,7 @@ from skills.video_fetcher import (
     list_all as list_all_videos,
 )
 from skills.video_gen import gerar_video
+from skills import meme_media
 
 def get_image(meme_id):
     return image_path_for(meme_id)
@@ -127,7 +128,8 @@ with st.sidebar:
     st.divider()
 
     pagina = st.radio(
-        "nav", ["📊 Dashboard", "📋 Memes", "🔄 Fila", "⚙️ Pipeline", "🖼️ Galeria", "🎬 Vídeos"],
+        "nav", ["📊 Dashboard", "📋 Memes", "🔄 Fila", "⚙️ Pipeline", "🖼️ Galeria",
+                "🎴 Cards", "🎬 Vídeos"],
         label_visibility="collapsed",
     )
     st.divider()
@@ -662,13 +664,113 @@ elif pagina == "🖼️ Galeria":
             st.caption(f"`{m['id']}` — {m.get('meme_texto','')[:80]}")
 
 # ═════════════════════════════════════════════════════════════════════════════
+# CARDS — imagem e vídeo do PRÓPRIO meme (o "print" que vira o card no jogo)
+# ═════════════════════════════════════════════════════════════════════════════
+elif pagina == "🎴 Cards":
+    st.title("🎴 Mídia dos cards")
+    st.caption("Gera a imagem (e o vídeo) do próprio meme — o 'print de corrente' que "
+               "aparece no card do jogo. Tudo offline, sem API.")
+
+    memes = load_memes()
+    elegiveis = [m for m in memes if (m.get("meme_texto") or "").strip()]
+    com_img = [m for m in elegiveis if meme_media.imagem_path_for(m["id"])]
+    com_vid = [m for m in elegiveis if meme_media.video_path_for(m["id"])]
+    sem_img = [m for m in elegiveis if not meme_media.imagem_path_for(m["id"])]
+
+    c1, c2, c3 = st.columns(3)
+    c1.metric("Memes", len(elegiveis))
+    c2.metric("Com imagem", len(com_img))
+    c3.metric("Com vídeo", len(com_vid))
+
+    st.divider()
+    st.subheader("1) Gerar as imagens dos memes")
+    st.caption("Rápido — desenha o print de cada meme. Recomeça os que faltam.")
+    cols = st.columns(2)
+    if cols[0].button(f"🖼️ Gerar {len(sem_img)} imagem(ns) que falta(m)",
+                      type="primary", use_container_width=True, disabled=not sem_img):
+        barra = st.progress(0.0, text="Começando…")
+        ok, falhas = 0, []
+        for i, m in enumerate(sem_img, 1):
+            barra.progress((i - 1) / len(sem_img), text=f"{i}/{len(sem_img)} — {m['id']}")
+            try:
+                meme_media.gerar_meme_imagem(m["id"], m["meme_texto"], m.get("modulo", ""))
+                ok += 1
+            except Exception as e:
+                falhas.append((m["id"], str(e)))
+        barra.progress(1.0, text="Pronto!")
+        st.cache_data.clear()
+        st.success(f"{ok} imagem(ns) gerada(s).")
+        for mid, err in falhas:
+            st.caption(f"⚠️ `{mid}` — {err}")
+        st.rerun()
+    if cols[1].button("🔁 Regerar TODAS as imagens", use_container_width=True,
+                      disabled=not elegiveis):
+        barra = st.progress(0.0, text="Começando…")
+        for i, m in enumerate(elegiveis, 1):
+            barra.progress((i - 1) / len(elegiveis), text=f"{i}/{len(elegiveis)} — {m['id']}")
+            try:
+                meme_media.gerar_meme_imagem(m["id"], m["meme_texto"], m.get("modulo", ""))
+            except Exception:
+                pass
+        barra.progress(1.0, text="Pronto!")
+        st.cache_data.clear()
+        st.rerun()
+
+    st.divider()
+    st.subheader("2) Gerar os vídeos dos memes (opcional)")
+    st.caption("Mais lento — anima a imagem com um zoom suave. Faça depois das imagens.")
+    falta_vid = [m for m in com_img if not meme_media.video_path_for(m["id"])]
+    if st.button(f"🎬 Gerar {len(falta_vid)} vídeo(s) de meme",
+                 use_container_width=True, disabled=not falta_vid):
+        barra = st.progress(0.0, text="Começando…")
+        ok, falhas = 0, []
+        for i, m in enumerate(falta_vid, 1):
+            barra.progress((i - 1) / len(falta_vid), text=f"{i}/{len(falta_vid)} — {m['id']}")
+            try:
+                meme_media.gerar_meme_video(m["id"], m["meme_texto"], m.get("modulo", ""))
+                ok += 1
+            except Exception as e:
+                falhas.append((m["id"], str(e)))
+        barra.progress(1.0, text="Pronto!")
+        st.cache_data.clear()
+        st.success(f"{ok} vídeo(s) gerado(s).")
+        for mid, err in falhas:
+            st.caption(f"⚠️ `{mid}` — {err}")
+        st.rerun()
+
+    st.divider()
+    st.caption("➡️ Pra mandar pro jogo, vá em **🎬 Vídeos → Exportar pro jogo** "
+               "(exporta imagens, vídeos e cards de uma vez).")
+
+    st.subheader("Pré-visualização")
+    if not com_img:
+        st.info("Nenhuma imagem gerada ainda — use o passo 1.")
+    else:
+        grade = st.columns(3)
+        for i, m in enumerate(com_img):
+            with grade[i % 3]:
+                st.image(str(meme_media.imagem_path_for(m["id"])),
+                         caption=f"{m['id']} · {m.get('modulo','')}", use_container_width=True)
+                vp = meme_media.video_path_for(m["id"])
+                if vp:
+                    st.caption("🎬 tem vídeo")
+                if st.button("🗑️ Apagar", key=f"delmeme_{m['id']}"):
+                    meme_media.delete_imagem(m["id"])
+                    meme_media.delete_video(m["id"])
+                    st.cache_data.clear()
+                    st.rerun()
+
+# ═════════════════════════════════════════════════════════════════════════════
 # VÍDEOS DAS PÍLULAS — fluxo simples de 3 passos
 # ═════════════════════════════════════════════════════════════════════════════
 elif pagina == "🎬 Vídeos":
     st.title("🎬 Vídeos das pílulas")
     st.caption("Gere os vídeos e mande pro jogo — em 3 passos, sem configurar nada.")
 
-    JOGO_VIDEOS = Path("/home/dan/Área de Trabalho/jogo_ozipa/public/videos")
+    JOGO_PUBLIC = Path("/home/dan/Área de Trabalho/jogo_ozipa/public")
+    JOGO_VIDEOS = JOGO_PUBLIC / "videos"
+    JOGO_MEME_IMG = JOGO_PUBLIC / "meme_imagens"
+    JOGO_MEME_VID = JOGO_PUBLIC / "meme_videos"
 
     memes = load_memes()
 
@@ -715,17 +817,23 @@ elif pagina == "🎬 Vídeos":
 
     st.divider()
     st.subheader("2) Mandar pro jogo")
-    st.caption(f"Copia os vídeos pra `{JOGO_VIDEOS}` e grava os cards em `dilemas_importados.json` "
-               "(importação em runtime — depois é só ativar no admin do jogo).")
-    if st.button("📤 Exportar vídeos + cards pro jogo", use_container_width=True, type="primary"):
-        videos = list_all_videos()
-        JOGO_VIDEOS.mkdir(parents=True, exist_ok=True)
-        for _mid, p in videos.items():
-            shutil.copy2(p, JOGO_VIDEOS / p.name)
+    st.caption("Manda **tudo** de uma vez: vídeos das pílulas, imagens e vídeos dos memes "
+               "e os cards em `dilemas_importados.json` — depois é só ativar no admin do jogo.")
+    if st.button("📤 Exportar tudo pro jogo", use_container_width=True, type="primary"):
+        def _copiar(itens, destino):
+            destino.mkdir(parents=True, exist_ok=True)
+            for _mid, p in itens.items():
+                shutil.copy2(p, destino / p.name)
+            return len(itens)
+
+        n_vid = _copiar(list_all_videos(), JOGO_VIDEOS)
+        n_img = _copiar(meme_media.list_imagens(), JOGO_MEME_IMG)
+        n_mvid = _copiar(meme_media.list_videos(), JOGO_MEME_VID)
         with st.spinner("Gravando os cards…"):
             from scripts.gerar_cards import exportar_importados, carregar
             cards, dest = exportar_importados(carregar()["memes"])
-        st.success(f"{len(videos)} vídeo(s) copiado(s) · {len(cards)} card(s) exportado(s) pro jogo.")
+        st.success(f"Pílulas: {n_vid} · imagens de meme: {n_img} · vídeos de meme: {n_mvid} "
+                   f"· cards: {len(cards)} — tudo no jogo.")
         st.caption(f"Cards em `{dest}` — abra o admin do jogo → aba 📥 Cards pra ativar/desativar.")
 
     st.divider()
